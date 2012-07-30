@@ -1,0 +1,10 @@
+{
+    "name": "ctrl-f5/ctrllib",
+    "description": "CtrlLib",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "ctrl-f5",
+        "zf2"
+    ],
+    "homepage": "http://ctrl-f5.net/",
+}

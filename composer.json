@@ -6,5 +6,10 @@
         "ctrl-f5",
         "zf2"
     ],
-    "homepage": "http://ctrl-f5.net/"
+    "homepage": "http://ctrl-f5.net/",
+    "autoload": {
+        "psr-0": {
+            "Ctrl": "src/"
+        }
+    }
 }

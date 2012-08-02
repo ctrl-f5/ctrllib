@@ -5,7 +5,9 @@ namespace Ctrl\Domain;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-class ServiceLocatorAwareModel implements ServiceLocatorAwareInterface
+abstract class PersistableServiceLocatorAwareModel
+    extends Persistable
+    implements ServiceLocatorAwareInterface
 {
     /**
      * @var ServiceLocatorInterface

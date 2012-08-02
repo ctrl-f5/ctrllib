@@ -2,8 +2,6 @@
 
 namespace Ctrl;
 
-use Zend\Mvc\ModuleRouteListener;
-
 class Module
 {
     public function onBootstrap($e)

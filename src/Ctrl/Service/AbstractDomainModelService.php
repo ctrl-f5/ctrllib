@@ -2,9 +2,12 @@
 
 namespace Ctrl\Service;
 
+use Ctrl\Domain\Model;
+use Ctr\Form\Form;
+use DevCtrl\Domain\Exception;
 use Zend\ServiceManager;
 
-abstract class AbstractDomainEntityService extends AbstractDomainService
+abstract class AbstractDomainModelService extends AbstractDomainService
 {
     protected $entity = '';
 
@@ -25,5 +28,15 @@ abstract class AbstractDomainEntityService extends AbstractDomainService
             ->setParameter('id', $id)
             ->getResult();
         return $entities[0];
+    }
+
+    /**
+     * @param Model $model
+     * @return Form
+     * @throws Exception
+     */
+    public function getForm(Model $model)
+    {
+        throw new Exception('Not implemented');
     }
 }

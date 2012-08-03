@@ -16,6 +16,12 @@ class Module
                 $instance->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
             }
         });
+
+        /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
+        $viewManager = $serviceManager->get('ViewManager');
+        $viewManager->getHelperManager()
+            ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
+            ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\Form\TwitterBootstrap\CtrlFormInput');
     }
 
     public function getConfig()

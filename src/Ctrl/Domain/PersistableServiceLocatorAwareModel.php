@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 abstract class PersistableServiceLocatorAwareModel
-    extends Persistable
+    extends PersistableModel
     implements ServiceLocatorAwareInterface
 {
     /**

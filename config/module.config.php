@@ -7,5 +7,5 @@ return array(
         'factories' => array(
             'DomainServiceLoader' => 'Ctrl\Service\DomainServiceLoaderFactory',
         ),
-    )
+    ),
 );

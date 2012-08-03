@@ -8,6 +8,11 @@ use Ctrl\Form\Element\ElementInterface as CtrlElement;
 
 class CtrlFormInput extends AbstractHtmlElement
 {
+    /**
+     * @var \Zend\View\Renderer\PhpRenderer
+     */
+    protected $view;
+
     protected $defaultContainerAttributes = array();
 
     protected $defaulElementAttributes = array();
@@ -20,19 +25,22 @@ class CtrlFormInput extends AbstractHtmlElement
 
     public function __invoke(ElementInterface $element, $containerAttr = array(), $elementAttr = array(), $labelAttr = array())
     {
-        $html = $this->createContainer(
-            $this->createElement($element, $elementAttr),
-            $this->createLabel($element, $labelAttr)
-        );
+        $html = $this->create($element, $containerAttr, $elementAttr, $labelAttr);
 
         return $html;
     }
 
-    protected function createContainer($element, $label, $containerAttr = array())
+    protected function create(ElementInterface $element, $containerAttr = array(),$elementAttr = array(), $labelAttr = array())
     {
-        return '<div'.$this->_htmlAttribs(array_merge($this->defaultContainerAttributes, $containerAttr)).'">'.
-            $label.
-            $element.
+        return '<div'.
+            $this->_htmlAttribs(
+                $this->_cleanupAttributes(
+                    array_merge_recursive($this->defaultContainerAttributes, $containerAttr)
+                )
+            ).
+            '">'.
+            $this->createLabel($element, $labelAttr).
+            $this->createElement($element, $elementAttr).
             '</div>';
     }
 
@@ -46,6 +54,13 @@ class CtrlFormInput extends AbstractHtmlElement
         return $element;
     }
 
+    /**
+     * converts subarrays to strings
+     * seperated by a space
+     *
+     * @param $attr
+     * @return array
+     */
     protected function _cleanupAttributes($attr)
     {
         $clean = array();

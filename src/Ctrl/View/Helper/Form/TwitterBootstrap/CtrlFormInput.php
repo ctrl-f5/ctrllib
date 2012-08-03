@@ -3,8 +3,10 @@
 namespace Ctrl\View\Helper\Form\TwitterBootstrap;
 
 use Ctrl\View\Helper\Form\CtrlFormInput as BaseInput;
-use Zend\Form\ElementInterface as ZendElementInterface;
 use Ctrl\Form\Element\ElementInterface;
+use Zend\Form\ElementInterface as ZendElementInterface;
+use Zend\Form\View\Helper\FormInput;
+use Zend\Form\View\Helper\FormSelect;
 
 class CtrlFormInput extends BaseInput
 {
@@ -25,6 +27,19 @@ class CtrlFormInput extends BaseInput
             'control-label',
         ),
     );
+
+    protected function create(ElementInterface $element, $containerAttr = array(),$elementAttr = array(), $labelAttr = array())
+    {
+        if ($element->getForm()->getMessages($element->getName())) {
+            $containerAttr['class'][] = 'error';
+        }
+        return parent::create(
+            $element,
+            $containerAttr,
+            $elementAttr,
+            $labelAttr
+        );
+    }
 
     protected function createLabel(ElementInterface $element, $labelAttr = array())
     {
@@ -56,15 +71,40 @@ class CtrlFormInput extends BaseInput
                 $elementAttr
             );
         }
-        return '<div class="controls">'.
-            $this->view->formInput(
-            $element->setAttributes(
-                $this->_cleanupAttributes(
-                    array_merge($this->defaulElementAttributes, $elementAttr, $element->getAttributes())
-                )
-            )).
+
+        //due to ZF using attributes to do some freaky stuff
+        //we need to unset the options attribute before rendering
+        //the html attributes
+        $elAttr = $element->getAttributes();
+        unset($elAttr['options']);
+        $el = $element->setAttributes(
+            $this->_cleanupAttributes(
+                array_merge_recursive($this->defaulElementAttributes, $elementAttr, $elAttr)
+            )
+        );
+
+        $inputRenderer = $this->_getElementRenderer($element->getAttribute('type'));
+        return
+            '<div class="controls">'.
+                $inputRenderer->render($el).
             '</div>';
     }
 
-
+    /**
+     * @param string $type
+     * @return FormInput|FormSelect
+     */
+    protected function _getElementRenderer($type)
+    {
+        switch ($type) {
+            case 'select':
+            default:
+                return $this->view->getHelperPluginManager()->get('FormSelect');
+                break;
+            case 'text':
+            default:
+                return $this->view->getHelperPluginManager()->get('FormInput');
+                break;
+        }
+    }
 }

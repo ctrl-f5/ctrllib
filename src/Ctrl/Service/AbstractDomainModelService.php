@@ -3,16 +3,20 @@
 namespace Ctrl\Service;
 
 use Ctrl\Domain\Model;
-use Ctr\Form\Form;
+use Ctrl\Domain\PersistableModel;
+use Ctrl\Form\Form;
 use DevCtrl\Domain\Exception;
 use Zend\ServiceManager;
 
 abstract class AbstractDomainModelService extends AbstractDomainService
 {
+    /**
+     * @var string
+     */
     protected $entity = '';
 
     /**
-     * @return array
+     * @return array|PersistableModel[]
      */
     public function getAll()
     {
@@ -21,6 +25,10 @@ abstract class AbstractDomainModelService extends AbstractDomainService
             ->getResult();
     }
 
+    /**
+     * @param $id
+     * @return PersistableModel
+     */
     public function getById($id)
     {
         $entities = $this->getEntityManager()
@@ -31,11 +39,34 @@ abstract class AbstractDomainModelService extends AbstractDomainService
     }
 
     /**
+     * @param PersistableModel $model
+     */
+    public function persist(PersistableModel $model)
+    {
+        $this->getEntityManager()->persist($model);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param PersistableModel $model
+     */
+    public function remove(PersistableModel $model)
+    {
+        $this->getEntityManager()->remove($model);
+        $this->getEntityManager()->flush();
+    }
+
+    public function canRemove(PersistableModel $model)
+    {
+        return true;
+    }
+
+    /**
      * @param Model $model
      * @return Form
      * @throws Exception
      */
-    public function getForm(Model $model)
+    public function getForm(Model $model = null)
     {
         throw new Exception('Not implemented');
     }

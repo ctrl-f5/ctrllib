@@ -4,6 +4,10 @@ namespace Ctrl\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Http\PhpEnvironment\Response;
+use Ctrl\Service\AbstractDomainService;
+use Ctrl\Service\AbstractDomainModelService;
 
 class AbstractController extends AbstractActionController
 {
@@ -25,13 +29,35 @@ class AbstractController extends AbstractActionController
 
     /**
      * @param $name
-     * @return \Ctrl\Service\AbstractDomainService
+     * @return AbstractDomainService|AbstractDomainModelService
      */
     public function getDomainService($name)
     {
         return $this->getServiceLocator()
             ->get('DomainServiceLoader')
             ->get($name);
+    }
+
+    /**
+     * The methods below provide subclasses with code completion
+     * they contain method overrides or calls that would
+     * normally trigger a controller plugin.
+     */
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return parent::getRequest();
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse()
+    {
+        return parent::getResponse();
     }
 
     /**
@@ -42,5 +68,21 @@ class AbstractController extends AbstractActionController
     public function params($param = null, $default = null)
     {
         return parent::params($param, $default);
+    }
+
+    /**
+     * @return \Zend\Mvc\Controller\Plugin\Url
+     */
+    public function url()
+    {
+        return parent::url();
+    }
+
+    /**
+     * @return \Zend\Mvc\Controller\Plugin\Redirect
+     */
+    public function redirect()
+    {
+        return parent::redirect();
     }
 }

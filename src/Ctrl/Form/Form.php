@@ -7,6 +7,8 @@ use Ctrl\Form\Element\ElementInterface;
 
 class Form extends ZendForm
 {
+    protected $returnUrl;
+
     /**
      * @return array|\Traversable|ElementInterface[]
      */
@@ -26,5 +28,16 @@ class Form extends ZendForm
             $elementOrFieldset->setForm($this);
         }
         parent::add($elementOrFieldset, $flags);
+    }
+
+    public function setReturnUrl($url)
+    {
+        $this->returnUrl = $url;
+        return $this;
+    }
+
+    public function getReturnurl()
+    {
+        return $this->returnUrl;
     }
 }

@@ -21,7 +21,12 @@ class Module
         $viewManager = $serviceManager->get('ViewManager');
         $viewManager->getHelperManager()
             ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
-            ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\Form\TwitterBootstrap\CtrlFormInput');
+            ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput')
+            ->setInvokableClass('CtrlForm', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm')
+            ->setInvokableClass('CtrlButton', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton')
+            ->setInvokableClass('CtrlFormActions', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions')
+            ->setInvokableClass('PageTitle', 'Ctrl\View\Helper\TwitterBootstrap\PageTitle')
+            ->setInvokableClass('OrderControls', 'Ctrl\View\Helper\TwitterBootstrap\OrderControls');
     }
 
     public function getConfig()

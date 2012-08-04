@@ -2,26 +2,17 @@
 
 namespace Ctrl\View\Helper\Form;
 
-use Zend\View\Helper\AbstractHtmlElement;
+use Ctrl\View\Helper\AbstractHtmlElement;
 use Zend\Form\ElementInterface;
 use Ctrl\Form\Element\ElementInterface as CtrlElement;
 
 class CtrlFormInput extends AbstractHtmlElement
 {
-    /**
-     * @var \Zend\View\Renderer\PhpRenderer
-     */
-    protected $view;
-
     protected $defaultContainerAttributes = array();
 
     protected $defaulElementAttributes = array();
 
-    protected $defaulLabelAttributes = array(
-        'class' => array(
-            'control-label',
-        ),
-    );
+    protected $defaulLabelAttributes = array();
 
     public function __invoke(ElementInterface $element, $containerAttr = array(), $elementAttr = array(), $labelAttr = array())
     {
@@ -52,25 +43,6 @@ class CtrlFormInput extends AbstractHtmlElement
     protected function createElement(ElementInterface $element, $elementAttr = array())
     {
         return $element;
-    }
-
-    /**
-     * converts subarrays to strings
-     * seperated by a space
-     *
-     * @param $attr
-     * @return array
-     */
-    protected function _cleanupAttributes($attr)
-    {
-        $clean = array();
-        foreach ($attr as $k => $a) {
-            if (is_array($a)) {
-                $a = implode(' ', $a);
-            }
-            $clean[$k] = $a;
-        }
-        return $clean;
     }
 
     protected function isRequired(CtrlElement $element)

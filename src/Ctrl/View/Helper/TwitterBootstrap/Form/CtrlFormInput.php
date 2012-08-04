@@ -1,6 +1,6 @@
 <?php
 
-namespace Ctrl\View\Helper\Form\TwitterBootstrap;
+namespace Ctrl\View\Helper\TwitterBootstrap\Form;
 
 use Ctrl\View\Helper\Form\CtrlFormInput as BaseInput;
 use Ctrl\Form\Element\ElementInterface;

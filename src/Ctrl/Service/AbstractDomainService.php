@@ -3,6 +3,7 @@
 namespace Ctrl\Service;
 
 use Zend\ServiceManager;
+use Ctrl\Service\AbstractDomainModelService;
 
 abstract class AbstractDomainService implements
     ServiceManager\ServiceLocatorAwareInterface,
@@ -52,10 +53,13 @@ abstract class AbstractDomainService implements
         return $this->serviceLocator;
     }
 
+    /**
+     * @param $serviceName
+     * @return AbstractDomainService|AbstractDomainModelService
+     */
     public function getDomainService($serviceName)
     {
         $manager = $this->getServiceLocator()->get('DomainServiceLoader');
-        $serviceName .= 'DomainService';
         return $manager->get($serviceName);
     }
 

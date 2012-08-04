@@ -7,7 +7,15 @@ use Ctrl\Form\Element\ElementInterface;
 
 class Form extends ZendForm
 {
+    /**
+     * @var string
+     */
     protected $returnUrl;
+
+    /**
+     * @var string
+     */
+    protected $label;
 
     /**
      * @return array|\Traversable|ElementInterface[]
@@ -39,5 +47,23 @@ class Form extends ZendForm
     public function getReturnurl()
     {
         return $this->returnUrl;
+    }
+
+    /**
+     * @param $label
+     * @return Form
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 }

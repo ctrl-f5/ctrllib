@@ -68,7 +68,7 @@ class CtrlForm extends AbstractHtmlElement
 
     protected function createLabel(Form $form, $labelAttr = array())
     {
-        return '<legend>'.$form->getName().'</legend>';
+        return '<legend>'.$form->getLabel().'</legend>';
     }
 
     protected function createElement(Form $form, $formtAttr = array())

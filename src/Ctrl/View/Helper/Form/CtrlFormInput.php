@@ -48,6 +48,7 @@ class CtrlFormInput extends AbstractHtmlElement
     protected function isRequired(CtrlElement $element)
     {
         if ($element instanceof \Ctrl\Form\Element\ElementInterface
+            && $element->getForm()->getInputFilter()
             && $element->getForm()->getInputFilter()->has($element->getName())
             && $element->getForm()->getInputFilter()->get($element->getName())->isRequired()) {
             return true;

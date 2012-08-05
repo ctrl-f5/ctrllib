@@ -2,7 +2,7 @@
 
 namespace Ctrl\Domain;
 
-abstract class PersistableModel implements Model
+abstract class PersistableModel extends AbstractModel
 {
     /**
      * @var int

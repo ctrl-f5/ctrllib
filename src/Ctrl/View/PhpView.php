@@ -11,6 +11,10 @@ class PhpView extends \Zend\View\Renderer\PhpRenderer
     /**
      * @return string
      */
+    public function url($route, $params) {}
+    /**
+     * @return string
+     */
     public function pageTitle($title, $subtitle = null, $options = array()){}
     /**
      * @return string

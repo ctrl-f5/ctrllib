@@ -19,6 +19,7 @@ class Module
 
         /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
         $viewManager = $serviceManager->get('ViewManager');
+        if (method_exists($viewManager, 'getHelperManager')) {
         $viewManager->getHelperManager()
             ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
             ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput')
@@ -27,6 +28,7 @@ class Module
             ->setInvokableClass('CtrlFormActions', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions')
             ->setInvokableClass('PageTitle', 'Ctrl\View\Helper\TwitterBootstrap\PageTitle')
             ->setInvokableClass('OrderControls', 'Ctrl\View\Helper\TwitterBootstrap\OrderControls');
+        }
     }
 
     public function getConfig()

@@ -35,6 +35,10 @@ abstract class AbstractDomainModelService extends AbstractDomainService
             ->createQuery('SELECT e FROM '.$this->entity.' e WHERE e.id = :id')
             ->setParameter('id', $id)
             ->getResult();
+        if (!count($entities)) {
+            //TODO: fix exception
+            throw new \Exception($this->entity.' not found with id: '.$id);
+        }
         return $entities[0];
     }
 

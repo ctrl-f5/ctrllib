@@ -17,17 +17,35 @@ class Module
             }
         });
 
+        $this->setPhpSettings($serviceManager);
+        $this->setViewHelpers($serviceManager);
+    }
+
+    protected function setViewHelpers($serviceManager)
+    {
         /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
         $viewManager = $serviceManager->get('ViewManager');
         if (method_exists($viewManager, 'getHelperManager')) {
-        $viewManager->getHelperManager()
-            ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
-            ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput')
-            ->setInvokableClass('CtrlForm', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm')
-            ->setInvokableClass('CtrlButton', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton')
-            ->setInvokableClass('CtrlFormActions', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions')
-            ->setInvokableClass('PageTitle', 'Ctrl\View\Helper\TwitterBootstrap\PageTitle')
-            ->setInvokableClass('OrderControls', 'Ctrl\View\Helper\TwitterBootstrap\OrderControls');
+            $viewManager->getHelperManager()
+                ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
+                ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput')
+                ->setInvokableClass('CtrlForm', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm')
+                ->setInvokableClass('CtrlButton', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton')
+                ->setInvokableClass('CtrlFormActions', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions')
+                ->setInvokableClass('PageTitle', 'Ctrl\View\Helper\TwitterBootstrap\PageTitle')
+                ->setInvokableClass('FormatDate', 'Ctrl\View\Helper\FormatDate')
+                ->setInvokableClass('OrderControls', 'Ctrl\View\Helper\TwitterBootstrap\OrderControls');
+        }
+    }
+
+    protected function setPhpSettings($serviceManager)
+    {
+        $config      = $serviceManager->get('Configuration');
+        $phpSettings = $config['phpSettings'];
+        if($phpSettings) {
+            foreach($phpSettings as $key => $value) {
+                ini_set($key, $value);
+            }
         }
     }
 

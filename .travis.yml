@@ -7,7 +7,8 @@ before_install:
   - curl -s https://getcomposer.org/installer | php -- --quiet
   - php composer.phar install
   - php composer.phar update
-  - ls -la
+  - ls -la config
+  - ls -la vendor
   - cd tests
 
 script: phpunit --verbose

@@ -5,7 +5,8 @@ php:
 
 before_install: 
   - curl -s https://getcomposer.org/installer | php -- --quiet
-  - php composer.phar install --dev
+  - php composer.phar install
+  - php composer.phar update
   - ls -la
   - cd tests
 

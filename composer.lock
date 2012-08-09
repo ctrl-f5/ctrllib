@@ -1,14 +1,25 @@
 {
-    "hash": "2f1c07ce9a43143a5a70c7b04f6cbe17",
+    "hash": "2b8b3215379aafe8406e74822ad44162",
     "packages": [
-
+        {
+            "package": "zendframework/zendframework",
+            "version": "dev-master",
+            "alias-pretty-version": "2.0.x-dev",
+            "alias-version": "2.0.9999999.9999999-dev"
+        },
+        {
+            "package": "zendframework/zendframework",
+            "version": "dev-master",
+            "source-reference": "c34e65aca73902b311a374b2f4a0a1d4ee9bf792",
+            "commit-date": "1343248155"
+        }
     ],
     "packages-dev": null,
     "aliases": [
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "zendframework/zendframework": 20
+    }
 }

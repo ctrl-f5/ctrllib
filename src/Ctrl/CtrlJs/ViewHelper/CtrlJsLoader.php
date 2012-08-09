@@ -12,8 +12,9 @@ class CtrlJsLoader extends HeadScript
      */
     protected $_regKey = 'Ctrl_CtrlJs_ViewHelper_CtrlJsLoader';
 
-    public function __invoke()
+    public function __invoke($mode = HeadScript::FILE, $spec = null, $placement = 'APPEND', array $attrs = array(), $type = 'text/javascript')
     {
+        parent::__invoke($mode, $spec, $placement, $attrs, $type);
         return $this;
     }
 

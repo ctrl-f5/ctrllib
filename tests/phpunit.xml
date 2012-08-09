@@ -1,4 +1,4 @@
-<phpunit colors="true"> <!-- bootstrap="./bootstrap.php" -->
+<phpunit colors="true" bootstrap="./bootstrap.php">
     <testsuites>
         <testsuite name="ctrllib testsuite">
             <directory>./phpunit</directory>

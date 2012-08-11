@@ -8,7 +8,7 @@ class PageTitle extends AbstractHtmlElement
 {
     protected $defaulTitleAttributes = array();
 
-    public function __invoke($title, $subtitle, $attr = array())
+    public function __invoke($title, $subtitle = null, $attr = array())
     {
         $html = $this->create($title, $subtitle, $attr);
 

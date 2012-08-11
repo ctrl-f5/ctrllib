@@ -105,6 +105,10 @@ class CtrlFormInput extends BaseInput
             default:
                 return $this->view->getHelperPluginManager()->get('FormSelect');
                 break;
+            case 'textarea':
+            default:
+                return $this->view->getHelperPluginManager()->get('FormTextarea');
+                break;
             case 'text':
             default:
                 return $this->view->getHelperPluginManager()->get('FormInput');

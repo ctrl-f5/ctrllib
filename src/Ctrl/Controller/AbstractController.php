@@ -104,7 +104,7 @@ class AbstractController extends AbstractActionController
         return parent::flashMessenger();
     }
 
-    protected function redirectToIndexWithError($error, $id = null, $controller = null, $action = null)
+    protected function redirectWithError($error, $id = null, $controller = null, $action = null)
     {
         if (!$controller) $controller = $this->controllerName;
         if (!$action) $action = $this->defaultAction;

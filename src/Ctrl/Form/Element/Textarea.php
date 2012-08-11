@@ -4,7 +4,7 @@ namespace Ctrl\Form\Element;
 
 use Ctrl\Form\Element\Element;
 
-class TextArea extends Element
+class Textarea extends Element
 {
     /**
      * Seed attributes

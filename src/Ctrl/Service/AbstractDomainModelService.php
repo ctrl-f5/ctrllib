@@ -28,6 +28,7 @@ abstract class AbstractDomainModelService extends AbstractDomainService
     /**
      * @param $id
      * @return PersistableModel
+     * @throws \Exception
      */
     public function getById($id)
     {

@@ -17,6 +17,16 @@ class AbstractController extends AbstractActionController
     protected $domainServiceLocator;
 
     /**
+     * @var string
+     */
+    protected $controllerName = 'index';
+
+    /**
+     * @var string
+     */
+    protected $defaultAction = 'index';
+
+    /**
      * @return ServiceManager
      */
     public function getDomainServiceLocator()
@@ -84,5 +94,32 @@ class AbstractController extends AbstractActionController
     public function redirect()
     {
         return parent::redirect();
+    }
+
+    /**
+     * @return \Zend\Mvc\Controller\Plugin\FlashMessenger
+     */
+    public function flashMessenger()
+    {
+        return parent::flashMessenger();
+    }
+
+    protected function redirectToIndexWithError($error, $id = null, $controller = null, $action = null)
+    {
+        if (!$controller) $controller = $this->controllerName;
+        if (!$action) $action = $this->defaultAction;
+
+        $this->flashMessenger()->setNamespace('error')->addMessage($error);
+        $params = array(
+            'controller' => $controller,
+            'action' => $action,
+        );
+
+        $route = 'default';
+        if ($id) {
+            $params['id'] = $id;
+            $route .= '/id';
+        }
+        return $this->redirect()->toRoute($route, $params);
     }
 }

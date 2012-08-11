@@ -33,6 +33,10 @@ class CtrlFormInput extends BaseInput
         if ($element->getForm()->getMessages($element->getName())) {
             $containerAttr['class'][] = 'error';
         }
+        $filter = $element->getForm()->getInputFilter()->getMessages();
+        if (isset($filter[$element->getName()])) {
+            $elementAttr['data-validation-msg'][] = \reset($filter[$element->getName()]);
+        }
         return parent::create(
             $element,
             $containerAttr,

@@ -40,4 +40,9 @@ class PhpView extends \Zend\View\Renderer\PhpRenderer
      * @return \Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm
      */
     public function ctrlForm(){}
+
+    /**
+     * @return \Zend\View\Helper\Partial|string
+     */
+    public function partial($name = null, $model = null){}
 }

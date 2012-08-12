@@ -22,7 +22,10 @@ class CtrlButton extends BaseButton
         ),
         'danger' => array(
             'class' => array('btn-danger')
-        )
+        ),
+        'grant' => array(
+            'class' => array('btn-success')
+        ),
     );
 
     public function __invoke($type, $attr = array(), $style = 'normal')

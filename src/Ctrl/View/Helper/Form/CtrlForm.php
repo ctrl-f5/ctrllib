@@ -19,8 +19,21 @@ class CtrlForm extends AbstractFormElement
         return $this;
     }
 
+    /**
+     * @param \Ctrl\Form\Form $element
+     * @param array|bool $actions
+     * @param array $attr
+     * @return string
+     */
     public function createForm(Form $element, $actions = array(), $attr = array())
     {
+        if ($actions === true) {
+            $actions = array(
+                $this->view->ctrlButton('submit', array('value' => 'save'), 'primary'),
+                $this->view->ctrlButton('link', array('value' => 'cancel', 'href' => $element->getReturnUrl()))
+            );
+        }
+
         $html = array();
         $html[] = $this->start($element, $attr);
         foreach ($element->getElements() as $el) {

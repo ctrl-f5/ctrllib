@@ -5,7 +5,7 @@ namespace Ctrl\Service;
 use Ctrl\Domain\Model;
 use Ctrl\Domain\PersistableModel;
 use Ctrl\Form\Form;
-use DevCtrl\Domain\Exception;
+use Ctrl\Domain\Exception as DomainException;
 use Zend\ServiceManager;
 
 abstract class AbstractDomainModelService extends AbstractDomainService
@@ -54,11 +54,17 @@ abstract class AbstractDomainModelService extends AbstractDomainService
 
     /**
      * @param PersistableModel $model
+     * @return AbstractDomainModelService
+     * @throws DomainException
      */
     public function remove(PersistableModel $model)
     {
-        $this->getEntityManager()->remove($model);
-        $this->getEntityManager()->flush();
+        if ($this->canRemove($model)) {
+            $this->getEntityManager()->remove($model);
+            $this->getEntityManager()->flush();
+            return $this;
+        }
+        throw DomainException::modelPersistanceException($model);
     }
 
     public function canRemove(PersistableModel $model)
@@ -69,10 +75,10 @@ abstract class AbstractDomainModelService extends AbstractDomainService
     /**
      * @param Model $model
      * @return Form
-     * @throws Exception
+     * @throws \Ctrl\Exception
      */
     public function getForm(Model $model = null)
     {
-        throw new Exception('Not implemented');
+        throw new \Ctrl\Exception('Not implemented');
     }
 }

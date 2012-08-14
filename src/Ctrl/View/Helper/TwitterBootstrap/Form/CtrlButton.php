@@ -6,7 +6,7 @@ use Ctrl\View\Helper\Form\CtrlButton as BaseButton;
 
 class CtrlButton extends BaseButton
 {
-    protected $defaulAttributes = array(
+    protected $defaulElementAttributes = array(
         'class' => array('btn')
     );
 
@@ -35,18 +35,7 @@ class CtrlButton extends BaseButton
             if (isset($attr['class'])) $attr['class'] = (array)$attr['class'];
             $attr['class'] = 'ctrljs-confirm';
         }
-        $attr = $this->_cleanupAttributes(array_merge_recursive($this->defaulAttributes, $style, $attr));
-        switch ($type) {
-            case 'submit':
-                return $this->createSubmit($attr);
-                break;
-            case 'link':
-                return $this->createlink($attr);
-                break;
-            case 'button':
-            default:
-                return $this->createButton($attr);
-                break;
-        }
+        $attr = $this->_mergeAttributes(array($style, $attr));
+        return $this->create($type, $attr);
     }
 }

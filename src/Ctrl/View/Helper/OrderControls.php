@@ -6,8 +6,6 @@ use Ctrl\View\Helper\AbstractHtmlElement;
 
 class OrderControls extends AbstractHtmlElement
 {
-    protected $defaulAttributes = array();
-
     public function __invoke($route, $params = array(), $attr = array())
     {
         return $this->createUp($route, $params, $attr).
@@ -33,16 +31,11 @@ class OrderControls extends AbstractHtmlElement
         );
     }
 
-    protected function create($url, $dir, $attr = array())
+    protected function create($url, $label, $attr = array())
     {
         $attr['href'] = $url;
-        $html = '<a'.
-            $this->_htmlAttribs(
-                $this->_cleanupAttributes(
-                    array_merge_recursive($this->defaulAttributes, $attr)
-                )
-            ).'">'.
-            $dir.
+        $html = '<a'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'">'.
+            $label.
             '</a>';
         return $html;
     }

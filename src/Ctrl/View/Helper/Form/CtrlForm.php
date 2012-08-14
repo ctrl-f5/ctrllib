@@ -2,34 +2,40 @@
 
 namespace Ctrl\View\Helper\Form;
 
-use Zend\Form\ElementInterface;
+use Zend\Form\Element;
 use Ctrl\Form\Element\ElementInterface as CtrlElement;
-use Ctrl\View\Helper\AbstractHtmlElement;
+use Ctrl\View\Helper\Form\AbstractFormElement;
 use Ctrl\Form\Form;
 
-class CtrlForm extends AbstractHtmlElement
+class CtrlForm extends AbstractFormElement
 {
-    protected $defaultContainerAttributes = array();
-
-    protected $defaulElementAttributes = array();
-
-    protected $defaulLabelAttributes = array();
-
     protected $startedForms = array();
 
-    public function __invoke()
+    public function __invoke($form = null, $actions = array(), $attr = array())
     {
+        if ($form) {
+            return $this->createForm($form, $attr);
+        }
         return $this;
     }
 
-    public function start(Form $form, $containerAttr = array(),$elementAttr = array(), $labelAttr = array())
+    public function createForm(Form $element, $actions = array(), $attr = array())
     {
-        $this->startedForms[spl_object_hash($form)] = array(
-            'container' => $containerAttr,
-            'element' => $elementAttr,
-            'label' => $labelAttr
-        );
-        $html = $this->createStart($form, $containerAttr, $elementAttr, $labelAttr);
+        $html = array();
+        $html[] = $this->start($element, $attr);
+        foreach ($element->getElements() as $el) {
+            $html[] = $this->view->ctrlFormInput($el);
+        }
+        $html[] = $this->view->ctrlFormActions($actions);
+        $html[] = $this->end($element);
+
+        return implode(PHP_EOL, $html);
+    }
+
+    public function start(Form $form, $attr = array())
+    {
+        $this->startedForms[spl_object_hash($form)] = $attr;
+        $html = $this->createStart($form, $attr);
 
         return $html;
     }
@@ -37,42 +43,40 @@ class CtrlForm extends AbstractHtmlElement
     public function end(Form $form)
     {
         $hash = spl_object_hash($form);
-        $cache = isset($this->startedForms[$hash]) ? $this->startedForms[$hash] : array();
-        $containerAttr = isset($cache['container']) ? $cache['container'] : array();
-        $elementAttr = isset($cache['element']) ? $cache['element'] : array();
-        $labelAttr = isset($cache['label']) ? $cache['label'] : array();
+        $attr = isset($this->startedForms[$hash]) ? $this->startedForms[$hash] : array();
+        unset($this->startedForms[$hash]);
 
-        $html = $this->createEnd($form, $containerAttr, $elementAttr, $labelAttr);
+        $html = $this->createEnd($form, $attr);
 
         return $html;
     }
 
-    protected function createStart(Form $form, $containerAttr = array(),$formAttr = array(), $labelAttr = array())
+    public function createStart(Form $form, $attr = array())
     {
         return '<div'.
-            $this->_htmlAttribs(
-                $this->_cleanupAttributes(
-                    array_merge_recursive($this->defaultContainerAttributes, $containerAttr)
-                )
-            ).
-            '>'.
-            $this->createElement($form, $formAttr).
-            '<fieldset>'.
-            $this->createLabel($form, $labelAttr);
+            $this->_htmlAttribs($this->_getContainerAttr($form, $attr)).
+            '>'.PHP_EOL.
+            $this->createElement($form, $attr).PHP_EOL.
+            '<fieldset>'.PHP_EOL.
+            $this->createLabel($form, $attr);
     }
 
-    protected function createEnd(Form $form, $containerAttr = array(),$elementAttr = array(), $labelAttr = array())
+    public function createEnd(Form $form, $attr = array())
     {
         return '</fieldset></form></div>';
     }
 
-    protected function createLabel(Form $form, $labelAttr = array())
+    public function createLabel(Form $form, $attr = array())
     {
         return '<legend>'.$form->getLabel().'</legend>';
     }
 
-    protected function createElement(Form $form, $formtAttr = array())
+    public function createElement(Form $form, $attr = array())
     {
-        return $this->view->form($form);
+        $tmpAttr = $form->getAttributes();
+        $form->setAttributes($this->_getElementAttr($form, $attr));
+        $html = $this->view->form()->openTag($form);
+        $form->setAttributes($tmpAttr);
+        return $html;
     }
 }

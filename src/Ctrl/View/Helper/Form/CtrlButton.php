@@ -3,36 +3,35 @@
 namespace Ctrl\View\Helper\Form;
 
 use Ctrl\View\Helper\AbstractHtmlElement;
-use Zend\Form\ElementInterface;
+use Zend\Form\Element;
 use Ctrl\Form\Element\ElementInterface as CtrlElement;
 
 class CtrlButton extends AbstractHtmlElement
 {
-    protected $defaulAttributes = array();
-
     public function __invoke($type, $attr = array())
     {
-        $attr = $this->_cleanupAttributes(
-            array_merge_recursive($this->defaulAttributes, $attr)
-        );
+        return $this->create($type, $attr);
+    }
+
+    protected function create($type, $attr = array())
+    {
         switch ($type) {
             case 'submit':
-                $this->createSubmit($attr);
+                return $this->createSubmit($attr);
                 break;
             case 'link':
-                $this->createlink($attr);
+                return $this->createlink($attr);
                 break;
             case 'button':
             default:
-                $this->createButton($attr);
+                return $this->createButton($attr);
                 break;
         }
     }
 
     protected function createSubmit($attr = array())
     {
-        return '<input type="submit"'.
-            $this->_htmlAttribs($attr).
+        return '<input type="submit"'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).
             $this->getClosingBracket().
             PHP_EOL;
     }
@@ -40,9 +39,7 @@ class CtrlButton extends AbstractHtmlElement
     protected function createLink($attr = array())
     {
         $name = isset($attr['value']) ? $attr['value'] : '';
-        return '<a'.
-            $this->_htmlAttribs($attr).
-            '>'.
+        return '<a'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
             $name.
             '</a>'.
             PHP_EOL;
@@ -51,9 +48,7 @@ class CtrlButton extends AbstractHtmlElement
     protected function createButton($attr = array())
     {
         $name = isset($attr['value']) ? $attr['value'] : '';
-        return '<button '.
-            $this->_htmlAttribs($attr).
-            '>'.
+        return '<button '.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
             $name.
             '</button>'.
             PHP_EOL;

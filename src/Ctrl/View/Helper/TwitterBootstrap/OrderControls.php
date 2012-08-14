@@ -6,7 +6,7 @@ use Ctrl\View\Helper\OrderControls as BaseOrderControls;
 
 class OrderControls extends BaseOrderControls
 {
-    protected $defaulAttributes = array(
+    protected $defaulElementAttributes = array(
         'class' => 'btn'
     );
 

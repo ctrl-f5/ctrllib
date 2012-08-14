@@ -3,8 +3,8 @@
 namespace Ctrl\View\Helper\TwitterBootstrap\Form;
 
 use Ctrl\View\Helper\Form\CtrlFormInput as BaseInput;
-use Ctrl\Form\Element\ElementInterface;
-use Zend\Form\ElementInterface as ZendElementInterface;
+use Zend\Form\Element as ZendElement;
+use Ctrl\Form\Element\Element;
 use Zend\Form\View\Helper\FormInput;
 use Zend\Form\View\Helper\FormSelect;
 
@@ -28,91 +28,43 @@ class CtrlFormInput extends BaseInput
         ),
     );
 
-    protected function create(ElementInterface $element, $containerAttr = array(),$elementAttr = array(), $labelAttr = array())
+    protected function create(ZendElement $element, $attr = array())
     {
-        if ($element->getForm()->getMessages($element->getName())) {
-            $containerAttr['class'][] = 'error';
+        if ($element instanceof Element) {
+            if ($element->getForm()->getMessages($element->getName())) {
+                $tmpAttr = (isset($attr['container'])) ? $attr['container']: array();
+                $attr['container'] = $this->_mergeAttributes(array(
+                    array('class' => 'error'),
+                    $tmpAttr
+                ));
+            }
+            $filter = $element->getForm()->getInputFilter()->getMessages();
+            if (isset($filter[$element->getName()])) {
+                $element->setAttribute('data-validation-msg', \reset($filter[$element->getName()]));
+            }
         }
-        $filter = $element->getForm()->getInputFilter()->getMessages();
-        if (isset($filter[$element->getName()])) {
-            $elementAttr['data-validation-msg'][] = \reset($filter[$element->getName()]);
+        if ($this->isRequired($element)) {
+            $attr = $this->_mergeAttributes(array(
+                array('class' => 'required'),
+                $attr
+            ));
         }
-        return parent::create(
-            $element,
-            $containerAttr,
-            $elementAttr,
-            $labelAttr
-        );
+
+        return parent::create($element, $attr);
     }
 
-    protected function createLabel(ElementInterface $element, $labelAttr = array())
+    protected function createElement(Element $element, $attr = array())
+    {
+        return '<div class="controls">'.parent::createElement($element, $attr).'</div>';
+    }
+
+    protected function createLabel(ZendElement $element, $attr = array())
     {
         $required = '';
-        if ($element instanceof \Ctrl\Form\Element\ElementInterface && $this->isRequired($element)) {
-            $required = '<span>*</span>';
-        }
-        return '<label'.
-            $this->_htmlAttribs(
-                $this->_cleanupAttributes(
-                    array_merge($this->defaulLabelAttributes, $labelAttr)
-                )
-            ).
-            '>'.$element->getLabel().$required.'</label>';
-    }
+        $required = ($this->isRequired($element)) ? '<span>*</span>' : '';
 
-    /**
-     * @param ElementInterface|ZendElementInterface $element
-     * @param array $elementAttr
-     * @return string
-     */
-    protected function createElement(ZendElementInterface $element, $elementAttr = array())
-    {
-        if ($element instanceof \Ctrl\Form\Element\ElementInterface && $this->isRequired($element)) {
-            $elementAttr = array_merge_recursive(
-                array('class' => array(
-                    'required'
-                )),
-                $elementAttr
-            );
-        }
-
-        //due to ZF using attributes to do some freaky stuff
-        //we need to unset the options attribute before rendering
-        //the html attributes
-        $elAttr = $element->getAttributes();
-        unset($elAttr['options']);
-        $el = $element->setAttributes(
-            $this->_cleanupAttributes(
-                array_merge_recursive($this->defaulElementAttributes, $elementAttr, $elAttr)
-            )
-        );
-
-        $inputRenderer = $this->_getElementRenderer($element->getAttribute('type'));
-        return
-            '<div class="controls">'.
-                $inputRenderer->render($el).
-            '</div>';
-    }
-
-    /**
-     * @param string $type
-     * @return FormInput|FormSelect
-     */
-    protected function _getElementRenderer($type)
-    {
-        switch ($type) {
-            case 'select':
-            default:
-                return $this->view->getHelperPluginManager()->get('FormSelect');
-                break;
-            case 'textarea':
-            default:
-                return $this->view->getHelperPluginManager()->get('FormTextarea');
-                break;
-            case 'text':
-            default:
-                return $this->view->getHelperPluginManager()->get('FormInput');
-                break;
-        }
+        return '<label '.$this->_htmlAttribs($this->_getLabelAttr($element, $attr)).'>'.
+            $element->getLabel().$required.
+            '</label>';
     }
 }

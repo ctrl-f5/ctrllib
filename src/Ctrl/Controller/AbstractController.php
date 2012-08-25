@@ -27,6 +27,11 @@ class AbstractController extends AbstractActionController
     protected $defaultAction = 'index';
 
     /**
+     * @var \Ctrl\Log\Logger
+     */
+    protected $logger;
+
+    /**
      * @return ServiceManager
      */
     public function getDomainServiceLocator()
@@ -121,5 +126,16 @@ class AbstractController extends AbstractActionController
             $route .= '/id';
         }
         return $this->redirect()->toRoute($route, $params);
+    }
+
+    public function setLogger(\Zend\Log\Logger $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
     }
 }

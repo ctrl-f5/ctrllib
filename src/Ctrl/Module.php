@@ -2,6 +2,10 @@
 
 namespace Ctrl;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Ctrl\Mvc\View\Http\InjectTemplateListener;
+use Zend\Mvc\MvcEvent;
+
 class Module
 {
     public function onBootstrap($e)
@@ -10,32 +14,54 @@ class Module
         /** @var $serviceManager \Zend\ServiceManager\ServiceManager */
         $serviceManager = $application->getServiceManager();
 
-        // Add initializer to Controller Service Manager that check if controllers needs entity manager injection
-        $serviceManager->addInitializer(function ($instance) use ($serviceManager) {
+        $this->initModules($serviceManager);
+        $this->setPhpSettings($serviceManager);
+        $this->initLog($serviceManager);
+        $this->initControllers($serviceManager);
+    }
+
+    protected function initLog(\Zend\ServiceManager\ServiceManager $serviceManager)
+    {
+        $config      = $serviceManager->get('Configuration');
+        $c = $config['app_log'];
+        /** @var $logger \Ctrl\Log\Logger */
+        $logger = new $c['class']();
+        foreach ($c['writers'] as $wr) {
+            $logger->addWriter(
+                $wr['writer'],
+                (isset($wr['priority']) ? $wr['priority']: 1),
+                (isset($wr['options']) ? $wr['options']: array())
+            );
+        }
+        if (isset($c['registerErrorHandler']) && $c['registerErrorHandler']) {
+            $logger->registerErrorHandler($logger);
+        }
+        if (isset($c['registerExceptionHandler']) && $c['registerExceptionHandler']) {
+            $logger->registerExceptionHandler($logger);
+        }
+        $serviceManager->setService('log', $logger);
+    }
+
+    protected function initControllers(ServiceLocatorInterface $serviceManager)
+    {
+        // Add initializer to Controller ServiceManager
+        $serviceManager->get('ControllerLoader')->addInitializer(function ($instance) use ($serviceManager) {
             if (method_exists($instance, 'setEntityManager')) {
                 $instance->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
             }
+            if (method_exists($instance, 'setLogger')) {
+                $instance->setLogger($serviceManager->get('log'));
+            }
         });
-
-        $this->setPhpSettings($serviceManager);
-        $this->setViewHelpers($serviceManager);
     }
 
-    protected function setViewHelpers($serviceManager)
+    protected function initModules(ServiceLocatorInterface $serviceManager)
     {
-        /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
-        $viewManager = $serviceManager->get('ViewManager');
-        if (method_exists($viewManager, 'getHelperManager')) {
-            $viewManager->getHelperManager()
-                ->setInvokableClass('CtrlJsLoader', 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader')
-                ->setInvokableClass('CtrlFormInput', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput')
-                ->setInvokableClass('CtrlForm', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm')
-                ->setInvokableClass('CtrlButton', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton')
-                ->setInvokableClass('CtrlFormActions', 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions')
-                ->setInvokableClass('PageTitle', 'Ctrl\View\Helper\TwitterBootstrap\PageTitle')
-                ->setInvokableClass('FormatDate', 'Ctrl\View\Helper\FormatDate')
-                ->setInvokableClass('OrderControls', 'Ctrl\View\Helper\TwitterBootstrap\OrderControls');
-        }
+        $injectTemplateListener = new InjectTemplateListener();
+
+        $eventManager = $serviceManager->get('Application')->getEventManager();
+        $sharedEvents = $eventManager->getSharedManager();
+        $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($injectTemplateListener, 'injectTemplate'), -81);
     }
 
     protected function setPhpSettings($serviceManager)
@@ -51,7 +77,34 @@ class Module
 
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        return array(
+            'phpSettings' => array(
+                'date.timezone' => 'UTC',
+            ),
+            'view_helpers' => array(
+                'invokables' => array(
+                    'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',
+                    'CtrlJsLoader' => 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader',
+                    'CtrlFormInput' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput',
+                    'CtrlForm' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm',
+                    'CtrlButton' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton',
+                    'CtrlFormActions' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions',
+                    'FormatDate' => 'Ctrl\View\Helper\FormatDate',
+                    'OrderControls' => 'Ctrl\View\Helper\TwitterBootstrap\OrderControls',
+                ),
+            ),
+            'app_log' => array(
+                'class' => '\Ctrl\Log\Logger',
+                'writers' => array(
+                    array (
+                        'writer' => 'stream',
+                        'options' => array('stream' => 'php://stderr'),
+                    ),
+                ),
+                'registerErrorHandler' => false,
+                'registerExceptionHandler' => false,
+            ),
+        );
     }
 
     public function getAutoloaderConfig()
@@ -61,6 +114,15 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/../',
                 ),
+            ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'DomainServiceLoader' => 'Ctrl\Service\DomainServiceLoaderFactory',
             ),
         );
     }

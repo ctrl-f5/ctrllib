@@ -55,6 +55,9 @@ class CtrlFormInput extends BaseInput
 
     protected function createElement(Element $element, $attr = array())
     {
+        if ($element instanceof Element && $element->getAttribute('type') == 'hidden') {
+            return parent::createElement($element, $attr);
+        }
         return '<div class="controls">'.parent::createElement($element, $attr).'</div>';
     }
 

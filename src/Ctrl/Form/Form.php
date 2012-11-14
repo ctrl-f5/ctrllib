@@ -4,6 +4,7 @@ namespace Ctrl\Form;
 
 use Zend\Form\Form as ZendForm;
 use Ctrl\Form\Element\ElementInterface;
+use Ctrl\Form\Element\Element;
 
 class Form extends ZendForm
 {
@@ -18,7 +19,7 @@ class Form extends ZendForm
     protected $label;
 
     /**
-     * @return array|\Traversable|ElementInterface[]
+     * @return array|\Traversable|Element[]
      */
     public function getElements()
     {
@@ -65,5 +66,10 @@ class Form extends ZendForm
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function loadModel(\Ctrl\Domain\Model $model)
+    {
+
     }
 }

@@ -3,17 +3,17 @@
     "packages": [
         {
             "name": "zendframework/zendframework",
-            "version": "dev-master",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "git://github.com/zendframework/zf2.git",
-                "reference": "0e70e048a402fe73fd6ff51613d47fa8b6589c63"
+                "reference": "release-2.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/zendframework/zf2/zipball/master",
-                "reference": null,
-                "shasum": null
+                "url": "http://packages.zendframework.com/releases/ZendFramework-2.0.3/ZendFramework-2.0.3.zip",
+                "reference": "release-2.0.3",
+                "shasum": "c063848cceb1e32ad57746099ec1fafa6b3efa34"
             },
             "require": {
                 "php": ">=5.3.3"
@@ -78,12 +78,7 @@
                 "zendframework/zendservice-recaptcha": "ZendService\\ReCaptcha for rendering ReCaptchas in Zend\\Captcha and/or Zend\\Form"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Zend\\": "library/",
@@ -103,8 +98,7 @@
                 "irc": "irc://irc.freenode.net/zftalk",
                 "issues": "https://github.com/zendframework/zf2/issues",
                 "source": "https://github.com/zendframework/zf2"
-            },
-            "time": "1350509831"
+            }
         }
     ],
     "packages-dev": null,

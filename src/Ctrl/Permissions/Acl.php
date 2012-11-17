@@ -8,8 +8,14 @@ use Zend\Permissions\Acl\Acl as ZendAcl,
 
 class Acl extends ZendAcl
 {
-    public function addResources(Resources $resources)
+    /**
+     * @var Resources[]
+     */
+    protected $systemResources = array();
+
+    public function addSystemResources(Resources $resources)
     {
+        $this->systemResources[spl_object_hash($resources)] = $resources;
         foreach ($resources->getSets() as $set) {
             if (!$this->hasResource($set)) {
                 $this->addResource($set);
@@ -29,4 +35,22 @@ class Acl extends ZendAcl
             }
         }
     }
+
+    /**
+     * @return array|Resources[]
+     */
+    public function getSystemResources()
+    {
+        return $this->systemResources;
+    }
+
+    public function getResourceSets()
+    {
+        $sets = array();
+        foreach ($this->getSystemResources() as $r) {
+            $sets = array_merge($sets, $r->getSets());
+        }
+        return $sets;
+    }
+
 }

@@ -1,6 +1,11 @@
 <?php
 
-class FirstTest extends PHPUnit_Framework_TestCase
+namespace CtrlTest;
+
+use Zend\Version;
+use Ctrl\Domain\AbstractModel;
+
+class FirstTest extends \PHPUnit_Framework_TestCase
 {
     public function testIfTestsWork()
     {
@@ -9,6 +14,6 @@ class FirstTest extends PHPUnit_Framework_TestCase
     
     public function testIfAutoloadWorks()
     {
-        $this->assertTrue(class_exists('Zend\Version'));
+        $this->assertTrue(class_exists('Zend\Version\Version'));
     }
 }

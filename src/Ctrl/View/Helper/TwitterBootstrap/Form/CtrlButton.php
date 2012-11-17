@@ -33,7 +33,10 @@ class CtrlButton extends BaseButton
         $style = isset($this->styleAttributes[$style]) ? $this->styleAttributes[$style] : array();
         if (isset($attr['confirm']) && $attr['confirm']) {
             if (isset($attr['class'])) $attr['class'] = (array)$attr['class'];
-            $attr['class'] = 'ctrljs-confirm';
+            $attr['class'][] = 'ctrljs-confirm';
+        }
+        if (isset($attr['url']) && $attr['url']) {
+            $attr['href'] = $attr['url'];
         }
         $attr = $this->_mergeAttributes(array($style, $attr));
         return $this->create($type, $attr);

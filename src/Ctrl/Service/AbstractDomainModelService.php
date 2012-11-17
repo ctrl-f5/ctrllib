@@ -7,13 +7,20 @@ use Ctrl\Domain\PersistableModel;
 use Ctrl\Form\Form;
 use Ctrl\Domain\Exception as DomainException;
 use Zend\ServiceManager;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
 
-abstract class AbstractDomainModelService extends AbstractDomainService
+abstract class AbstractDomainModelService extends AbstractDomainService implements \Zend\EventManager\EventManagerAwareInterface
 {
     /**
      * @var string
      */
     protected $entity = '';
+
+    /**
+     * @var EventManager
+     */
+    protected $events;
 
     /**
      * @return array|PersistableModel[]
@@ -80,5 +87,36 @@ abstract class AbstractDomainModelService extends AbstractDomainService
     public function getForm(Model $model = null)
     {
         throw new \Ctrl\Exception('Not implemented');
+    }
+
+    /**
+     * Inject an EventManager instance
+     *
+     * @param  EventManagerInterface $eventManager
+     * @return void
+     */
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $eventManager->setIdentifiers(array(
+            __CLASS__,
+            get_called_class(),
+        ));
+        $this->events = $eventManager;
+        return $this;
+    }
+
+    /**
+     * Retrieve the event manager
+     *
+     * Lazy-loads an EventManager instance if none registered.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        if (null === $this->events) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->events;
     }
 }

@@ -23,6 +23,9 @@ class CtrlButton extends BaseButton
         'danger' => array(
             'class' => array('btn-danger')
         ),
+        'warning' => array(
+            'class' => array('btn-warning')
+        ),
         'grant' => array(
             'class' => array('btn-success')
         ),

@@ -5,11 +5,13 @@ namespace Ctrl\Permissions;
 class Resources
 {
     const SET_GLOBAL = 'global';
+    const SET_ROUTES = 'routes';
 
     public function getSets()
     {
         return array(
             self::SET_GLOBAL,
+            self::SET_ROUTES,
         );
     }
 

@@ -83,6 +83,7 @@ class Module
             ),
             'view_helpers' => array(
                 'invokables' => array(
+                    'CtrlNavigation' => 'Ctrl\View\Helper\Navigation\Navigation',
                     'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',
                     'CtrlJsLoader' => 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader',
                     'CtrlFormInput' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput',
@@ -122,8 +123,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'DomainServiceLoader' => 'Ctrl\Service\DomainServiceLoaderFactory',
-                'Navigation' => 'Zend\Navigation\Service\AbstractNavigationFactory',
+                'DomainServiceLoader'       => 'Ctrl\Service\DomainServiceLoaderFactory',
             ),
         );
     }

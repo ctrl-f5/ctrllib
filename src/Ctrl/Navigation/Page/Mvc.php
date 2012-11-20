@@ -32,7 +32,7 @@ class Mvc extends MvcPage
                     $myParams = $this->params;
                     if (!isset($myParams['controller'])) $myParams['controller'] = 'index';
                     if (!isset($myParams['action'])) $myParams['action'] = 'index';
-                    
+
                     //check the controller and action params
                     if (strtolower($this->routeMatch->getParam('__CONTROLLER__')) == strtolower($myParams['controller'])
                         && $this->routeMatch->getParam('action') == $myParams['action']

@@ -123,6 +123,7 @@ class Module
         return array(
             'factories' => array(
                 'DomainServiceLoader' => 'Ctrl\Service\DomainServiceLoaderFactory',
+                'Navigation' => 'Zend\Navigation\Service\AbstractNavigationFactory',
             ),
         );
     }

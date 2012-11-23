@@ -84,15 +84,19 @@ class Module
             'view_helpers' => array(
                 'invokables' => array(
                     'CtrlNavigation' => 'Ctrl\View\Helper\Navigation\Navigation',
-                    'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',
+                    'Navigation' => 'Ctrl\View\Helper\Navigation\Navigation',
+                    'FormatDate' => 'Ctrl\View\Helper\FormatDate',
                     'CtrlJsLoader' => 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader',
+                    'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',
                     'CtrlFormInput' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput',
                     'CtrlForm' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm',
                     'CtrlButton' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton',
                     'CtrlFormActions' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions',
-                    'FormatDate' => 'Ctrl\View\Helper\FormatDate',
                     'OrderControls' => 'Ctrl\View\Helper\TwitterBootstrap\OrderControls',
                 ),
+                'aliases' => array(
+                    'navigation' => 'CtrlNavigation'
+                )
             ),
             'app_log' => array(
                 'class' => '\Ctrl\Log\Logger',
@@ -126,10 +130,5 @@ class Module
                 'DomainServiceLoader'       => 'Ctrl\Service\DomainServiceLoaderFactory',
             ),
         );
-    }
-
-    public static function getDefaultModuleRouterConfig($defaultNamespace, $prefix = '')
-    {
-
     }
 }

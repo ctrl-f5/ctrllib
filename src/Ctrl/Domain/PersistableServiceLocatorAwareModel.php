@@ -31,4 +31,14 @@ abstract class PersistableServiceLocatorAwareModel
     {
         return $this->serviceLocator;
     }
+
+    /**
+     * @param $serviceName
+     * @return AbstractDomainService|AbstractDomainModelService
+     */
+    public function getDomainService($serviceName)
+    {
+        $manager = $this->getServiceLocator()->get('DomainServiceLoader');
+        return $manager->get($serviceName);
+    }
 }

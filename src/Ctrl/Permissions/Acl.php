@@ -37,6 +37,26 @@ class Acl extends ZendAcl
     }
 
     /**
+     * @param $roles \Ctrl\Module\Auth\Domain\Role[]|array
+     * @return Acl
+     */
+    public function addRoles($roles)
+    {
+        foreach ($roles as $role) {
+            if (!$this->hasRole($role->getName())) {
+                parent::addRole($role->getName());
+            }
+            $authRole = $this->getRole($role->getName());
+            foreach ($role->getPermissions() as $permission) {
+                if ($permission->isAllowed() && $this->hasResource($permission->getResource()->getName())) {
+                    $this->allow($authRole, $this->getResource($permission->getResource()->getName()));
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
      * @return array|Resources[]
      */
     public function getSystemResources()

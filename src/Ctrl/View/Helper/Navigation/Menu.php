@@ -71,15 +71,16 @@ class Menu extends ZendMenu
         $role = $this->getRole();
         $roles = $this->getRoles();
         $resource = $page->getResource();
-        $privilege = $page->getPrivilege();
 
         if (!$roles) {
             $roles = array($role);
         }
-        if ($resource || $privilege) {
+        if ($resource) {
             foreach ($roles as $r) {
                 // determine using helper role and page resource/privilege
-                return $acl->hasResource($resource) && $acl->isAllowed($r, $resource);
+                if ($acl->hasResource($resource) && $acl->isAllowed($r, $resource)) {
+                    return true;
+                }
             }
             return false;
         }

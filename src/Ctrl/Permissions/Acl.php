@@ -48,7 +48,10 @@ class Acl extends ZendAcl
             }
             $authRole = $this->getRole($role->getName());
             foreach ($role->getPermissions() as $permission) {
-                if ($permission->isAllowed() && $this->hasResource($permission->getResource()->getName())) {
+                if (!$this->hasResource($permission->getResource()->getName())) {
+                    $this->addResource($permission->getResource()->getName());
+                }
+                if ($permission->isAllowed()) {
                     $this->allow($authRole, $this->getResource($permission->getResource()->getName()));
                 }
             }
@@ -73,4 +76,8 @@ class Acl extends ZendAcl
         return $sets;
     }
 
+    public function hasAccessToRouteResource($resource)
+    {
+
+    }
 }

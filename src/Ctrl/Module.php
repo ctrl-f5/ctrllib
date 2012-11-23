@@ -127,4 +127,9 @@ class Module
             ),
         );
     }
+
+    public static function getDefaultModuleRouterConfig($defaultNamespace, $prefix = '')
+    {
+
+    }
 }

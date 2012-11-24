@@ -31,7 +31,7 @@ class CtrlButton extends AbstractHtmlElement
 
     protected function createSubmit($attr = array())
     {
-        return '<input type="submit"'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).
+        return '<input type="submit"'.$this->htmlAttribs($this->_getElementAttr(null, $attr)).
             $this->getClosingBracket().
             PHP_EOL;
     }
@@ -39,7 +39,7 @@ class CtrlButton extends AbstractHtmlElement
     protected function createLink($attr = array())
     {
         $name = isset($attr['value']) ? $attr['value'] : '';
-        return '<a'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
+        return '<a'.$this->htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
             $name.
             '</a>'.
             PHP_EOL;
@@ -48,7 +48,7 @@ class CtrlButton extends AbstractHtmlElement
     protected function createButton($attr = array())
     {
         $name = isset($attr['value']) ? $attr['value'] : '';
-        return '<button '.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
+        return '<button '.$this->htmlAttribs($this->_getElementAttr(null, $attr)).'>'.
             $name.
             '</button>'.
             PHP_EOL;

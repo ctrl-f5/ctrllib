@@ -32,7 +32,7 @@ abstract class AbstractHtmlElement extends ZendAbstractHtmlElement
     }
 
     protected function create($content, $attr = array()) {
-        return '<div '.$this->_htmlAttribs($this->_getContainerAttr($content, $attr)).'">'.
+        return '<div '.$this->htmlAttribs($this->_getContainerAttr($content, $attr)).'">'.
                     $this->createElement($content, $attr).
                 '</div>';
     }

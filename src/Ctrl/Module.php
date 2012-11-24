@@ -5,6 +5,7 @@ namespace Ctrl;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Ctrl\Mvc\View\Http\InjectTemplateListener;
 use Zend\Mvc\MvcEvent;
+use Ctrl\EntityManager\PostLoadSubscriber;
 
 class Module
 {
@@ -17,6 +18,7 @@ class Module
         $this->initModules($serviceManager);
         $this->setPhpSettings($serviceManager);
         $this->initLog($serviceManager);
+        $this->initDoctrine($serviceManager);
         $this->initControllers($serviceManager);
     }
 
@@ -53,6 +55,16 @@ class Module
                 $instance->setLogger($serviceManager->get('log'));
             }
         });
+    }
+
+    protected function initDoctrine(ServiceLocatorInterface $serviceManager)
+    {
+        /** @var $entityManager \Doctrine\ORM\EntityManager */
+        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+        $entityManager->getEventManager()->addEventListener(
+            array(\Doctrine\ORM\Events::postLoad),
+            new PostLoadSubscriber($serviceManager)
+        );
     }
 
     protected function initModules(ServiceLocatorInterface $serviceManager)

@@ -34,7 +34,7 @@ class OrderControls extends AbstractHtmlElement
     protected function create($url, $label, $attr = array())
     {
         $attr['href'] = $url;
-        $html = '<a'.$this->_htmlAttribs($this->_getElementAttr(null, $attr)).'">'.
+        $html = '<a'.$this->htmlAttribs($this->_getElementAttr(null, $attr)).'">'.
             $label.
             '</a>';
         return $html;

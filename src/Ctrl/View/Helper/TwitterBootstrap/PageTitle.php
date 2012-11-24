@@ -22,21 +22,21 @@ class PageTitle extends BasePageTitle
             );
         }
 
-        return '<div '.$this->_htmlAttribs($this->_getContainerAttr($title, $attr)).'>'.
+        return '<div '.$this->htmlAttribs($this->_getContainerAttr($title, $attr)).'>'.
             $this->createTitle($title, $level, $this->createSubtitle($subtitle, $attr), $attr).
         '</div>';
     }
 
     protected function createTitle($title, $level, $subtitle, $attr = array())
     {
-        return '<h'.$level.$this->_htmlAttribs($this->_mergeAttributes($this->defaulElementAttributes, $attr)).'>'.
+        return '<h'.$level.$this->htmlAttribs($this->_mergeAttributes($this->defaulElementAttributes, $attr)).'>'.
             $title.$subtitle.
         '</h'.$level.'>';
     }
 
     protected function createSubtitle($subtitle, $attr = array())
     {
-        return '<small'.$this->_htmlAttribs($this->_mergeAttributes($this->defaulSubtitleAttributes, $attr)).'>'.
+        return '<small'.$this->htmlAttribs($this->_mergeAttributes($this->defaulSubtitleAttributes, $attr)).'>'.
             $subtitle.
         '</small>';
     }

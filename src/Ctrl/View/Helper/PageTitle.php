@@ -36,21 +36,21 @@ class PageTitle extends AbstractHtmlElement
 
     protected function create($title, $subtitle = null, $attr = array())
     {
-        return '<div '.$this->_htmlAttribs($this->_getContainerAttr($title, $attr)).'>'.
+        return '<div '.$this->htmlAttribs($this->_getContainerAttr($title, $attr)).'>'.
             $this->createTitle($title, $attr).$this->createSubtitle($subtitle, $attr).
         '</div>';
     }
 
     protected function createTitle($title, $attr = array())
     {
-        '<h1'.$this->_htmlAttribs($this->_mergeAttributes($this->defaulElementAttributes, $attr)).'>'.
+        '<h1'.$this->htmlAttribs($this->_mergeAttributes($this->defaulElementAttributes, $attr)).'>'.
             $title.
         '</h1>';
     }
 
     protected function createSubtitle($subtitle, $attr = array())
     {
-        '<h2'.$this->_htmlAttribs($this->_mergeAttributes($this->defaulSubtitleAttributes, $attr)).'>'.
+        '<h2'.$this->htmlAttribs($this->_mergeAttributes($this->defaulSubtitleAttributes, $attr)).'>'.
             $subtitle.
         '</h2>';
     }

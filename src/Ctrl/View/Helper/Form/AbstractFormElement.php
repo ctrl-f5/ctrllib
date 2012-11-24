@@ -41,7 +41,7 @@ class AbstractFormElement extends AbstractHtmlElement
         if ($element instanceof Element && $element->getAttribute('type') == 'hidden') {
             return $this->createElement($element, $attr);
         }
-        return '<div '.$this->_htmlAttribs($this->_getContainerAttr($element, $attr)).
+        return '<div '.$this->htmlAttribs($this->_getContainerAttr($element, $attr)).
             '">'.
             $this->createLabel($element, $attr).
             $this->createElement($element, $attr).
@@ -50,7 +50,7 @@ class AbstractFormElement extends AbstractHtmlElement
 
     protected function createLabel(Element $element, $attr = array())
     {
-        return '<label '.$this->_htmlAttribs($this->_getLabelAttr($element, $attr)).'>'.
+        return '<label '.$this->htmlAttribs($this->_getLabelAttr($element, $attr)).'>'.
                     $element->getLabel().
                 '</label>';
     }

@@ -66,7 +66,7 @@ class CtrlFormInput extends BaseInput
         $required = '';
         $required = ($this->isRequired($element)) ? '<span>*</span>' : '';
 
-        return '<label '.$this->_htmlAttribs($this->_getLabelAttr($element, $attr)).'>'.
+        return '<label '.$this->htmlAttribs($this->_getLabelAttr($element, $attr)).'>'.
             $element->getLabel().$required.
             '</label>';
     }

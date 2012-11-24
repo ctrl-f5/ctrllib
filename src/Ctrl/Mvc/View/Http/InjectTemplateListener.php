@@ -51,4 +51,12 @@ class InjectTemplateListener extends ZendInjectTemplateListener
         $ns[] = array_shift($parts); // add module name
         return implode('/', $ns);
     }
+
+    /**
+     * disable this function
+     */
+    protected function deriveControllerSubNamespace($namespace)
+    {
+        return '';
+    }
 }

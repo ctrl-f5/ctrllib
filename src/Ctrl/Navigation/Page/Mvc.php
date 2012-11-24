@@ -22,12 +22,10 @@ class Mvc extends MvcPage
         if (!$this->active) {
 
             //do we have a matched route?
-
             if ($this->routeMatch instanceof \Zend\Mvc\Router\RouteMatch) {
                 if (null !== $this->getRoute()
-                    && $this->routeMatch->getMatchedRouteName() === $this->getRoute()
-                ) {
-
+                && $this->routeMatch->getMatchedRouteName() === $this->getRoute()
+            ) {
                     //get default params and set defaults
                     $myParams = $this->params;
                     if (!isset($myParams['controller'])) $myParams['controller'] = 'index';
@@ -42,7 +40,9 @@ class Mvc extends MvcPage
                     }
                     //if recursive check the sub pages
                     if ($recursive) {
+                        /** @var $page Mvc */
                         foreach ($this->pages as $page) {
+                            $page->setRouteMatch($this->routeMatch);
                             if ($page->isActive(true)) {
                                 return true;
                             }

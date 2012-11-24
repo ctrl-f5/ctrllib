@@ -67,7 +67,7 @@ class CtrlForm extends AbstractFormElement
     public function createStart(Form $form, $attr = array())
     {
         return '<div'.
-            $this->_htmlAttribs($this->_getContainerAttr($form, $attr)).
+            $this->htmlAttribs($this->_getContainerAttr($form, $attr)).
             '>'.PHP_EOL.
             $this->createElement($form, $attr).PHP_EOL.
             '<fieldset>'.PHP_EOL.

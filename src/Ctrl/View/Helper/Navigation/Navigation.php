@@ -33,24 +33,6 @@ class Navigation extends ZendNavigation
         return $this->roles;
     }
 
-    public function __call($method, array $arguments = array())
-    {
-        // check if call should proxy to another helper
-        $helper = $this->findHelper($method, false);
-        if ($helper) {
-            if ($helper instanceof ServiceLocatorAwareInterface && $this->getServiceLocator()) {
-                $helper->setServiceLocator($this->getServiceLocator());
-            }
-            if ($helper instanceof Navigation || $helper instanceof Menu) {
-                $helper->setRoles($this->getRoles());
-            }
-            return call_user_func_array($helper, $arguments);
-        }
-
-        // default behaviour: proxy call to container
-        return parent::__call($method, $arguments);
-    }
-
     /**
      * Determines whether a page should be accepted by ACL when iterating
      *
@@ -103,5 +85,13 @@ class Navigation extends ZendNavigation
             $this->setPluginManager(new PluginManager());
         }
         return $this->plugins;
+    }
+
+    protected function inject(\Zend\View\Helper\Navigation\HelperInterface $helper)
+    {
+        parent::inject($helper);
+        if ($helper instanceof Navigation || $helper instanceof Menu) {
+            $helper->setRoles($this->getRoles());
+        }
     }
 }

@@ -43,14 +43,26 @@ class AbstractController extends AbstractActionController
     }
 
     /**
+     * Returns a registered AbstractDomainService
+     *
      * @param $name
      * @return AbstractDomainService|AbstractDomainModelService
      */
     public function getDomainService($name)
     {
-        return $this->getServiceLocator()
-            ->get('DomainServiceLoader')
+        return $this->getDomainServiceLocator()
             ->get($name);
+    }
+
+    public function setLogger(\Zend\Log\Logger $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
     }
 
     /**
@@ -94,7 +106,7 @@ class AbstractController extends AbstractActionController
     }
 
     /**
-     * @return \Zend\Mvc\Controller\Plugin\Redirect
+     * @return \Ctrl\Mvc\Controller\Plugin\Redirect
      */
     public function redirect()
     {
@@ -107,35 +119,5 @@ class AbstractController extends AbstractActionController
     public function flashMessenger()
     {
         return parent::flashMessenger();
-    }
-
-    protected function redirectWithError($error, $id = null, $controller = null, $action = null)
-    {
-        if (!$controller) $controller = $this->controllerName;
-        if (!$action) $action = $this->defaultAction;
-
-        $this->flashMessenger()->setNamespace('error')->addMessage($error);
-        $params = array(
-            'controller' => $controller,
-            'action' => $action,
-        );
-
-        $route = 'default';
-        if ($id) {
-            $params['id'] = $id;
-            $route .= '/id';
-        }
-        return $this->redirect()->toRoute($route, $params);
-    }
-
-    public function setLogger(\Zend\Log\Logger $logger)
-    {
-        $this->logger = $logger;
-        return $this;
-    }
-
-    public function getLogger()
-    {
-        return $this->logger;
     }
 }

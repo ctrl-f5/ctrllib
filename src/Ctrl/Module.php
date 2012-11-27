@@ -93,6 +93,14 @@ class Module
             'phpSettings' => array(
                 'date.timezone' => 'UTC',
             ),
+            'controller_plugins' => array(
+                'invokables' => array(
+                    'CtrlRedirect' => 'Ctrl\Mvc\Controller\Plugin\Redirect',
+                ),
+                'aliases' => array(
+                    'redirect' => 'CtrlRedirect'
+                )
+            ),
             'view_helpers' => array(
                 'invokables' => array(
                     'CtrlNavigation' => 'Ctrl\View\Helper\Navigation\Navigation',

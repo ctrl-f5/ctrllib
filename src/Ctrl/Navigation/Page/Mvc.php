@@ -23,14 +23,11 @@ class Mvc extends MvcPage
 
             //do we have a matched route?
             if ($this->routeMatch instanceof \Zend\Mvc\Router\RouteMatch) {
-                if (null !== $this->getRoute()
-                && $this->routeMatch->getMatchedRouteName() === $this->getRoute()
-            ) {
+                if (null !== $this->getRoute() && $this->routeMatch->getMatchedRouteName() === $this->getRoute()) {
                     //get default params and set defaults
                     $myParams = $this->params;
                     if (!isset($myParams['controller'])) $myParams['controller'] = 'index';
                     if (!isset($myParams['action'])) $myParams['action'] = 'index';
-
                     //check the controller and action params
                     if (strtolower($this->routeMatch->getParam('__CONTROLLER__')) == strtolower($myParams['controller'])
                         && $this->routeMatch->getParam('action') == $myParams['action']
@@ -48,9 +45,8 @@ class Mvc extends MvcPage
                             }
                         }
                     }
-                    //matched route but no valid mvc parameters
-                    return false;
                 }
+                return false;
             }
 
             //no matched route so try parent logic

@@ -54,14 +54,26 @@ class AbstractController extends AbstractActionController
             ->get($name);
     }
 
+    /**
+     * Sets a logger
+     *
+     * @param \Zend\Log\Logger $logger
+     * @return AbstractController
+     */
     public function setLogger(\Zend\Log\Logger $logger)
     {
         $this->logger = $logger;
         return $this;
     }
 
+    /**
+     * @return \Ctrl\Log\Logger
+     */
     public function getLogger()
     {
+        if (!$this->logger) {
+            $this->logger = $this->getServiceLocator()->get('Log');
+        }
         return $this->logger;
     }
 

@@ -15,46 +15,10 @@ class Module
         /** @var $serviceManager \Zend\ServiceManager\ServiceManager */
         $serviceManager = $application->getServiceManager();
 
+        $serviceManager->setAlias('EntityManager', 'doctrine.entitymanager.orm_default');
         $this->initModules($serviceManager);
         $this->setPhpSettings($serviceManager);
-        $this->initLog($serviceManager);
         $this->initDoctrine($serviceManager);
-        $this->initControllers($serviceManager);
-    }
-
-    protected function initLog(\Zend\ServiceManager\ServiceManager $serviceManager)
-    {
-        $config      = $serviceManager->get('Configuration');
-        $c = $config['app_log'];
-        /** @var $logger \Ctrl\Log\Logger */
-        $logger = new $c['class']();
-        foreach ($c['writers'] as $wr) {
-            $logger->addWriter(
-                $wr['writer'],
-                (isset($wr['priority']) ? $wr['priority']: 1),
-                (isset($wr['options']) ? $wr['options']: array())
-            );
-        }
-        if (isset($c['registerErrorHandler']) && $c['registerErrorHandler']) {
-            $logger->registerErrorHandler($logger);
-        }
-        if (isset($c['registerExceptionHandler']) && $c['registerExceptionHandler']) {
-            $logger->registerExceptionHandler($logger);
-        }
-        $serviceManager->setService('log', $logger);
-    }
-
-    protected function initControllers(ServiceLocatorInterface $serviceManager)
-    {
-        // Add initializer to Controller ServiceManager
-        $serviceManager->get('ControllerLoader')->addInitializer(function ($instance) use ($serviceManager) {
-            if (method_exists($instance, 'setEntityManager')) {
-                $instance->setEntityManager($serviceManager->get('doctrine.entitymanager.orm_default'));
-            }
-            if (method_exists($instance, 'setLogger')) {
-                $instance->setLogger($serviceManager->get('log'));
-            }
-        });
     }
 
     protected function initDoctrine(ServiceLocatorInterface $serviceManager)
@@ -148,6 +112,7 @@ class Module
         return array(
             'factories' => array(
                 'DomainServiceLoader'       => 'Ctrl\Service\DomainServiceLoaderFactory',
+                'Log'                       => 'Ctrl\Log\LogFactory',
             ),
         );
     }

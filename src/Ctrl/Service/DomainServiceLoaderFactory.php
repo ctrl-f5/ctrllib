@@ -34,7 +34,7 @@ class DomainServiceLoaderFactory implements FactoryInterface
                 $instance->setEventManager($serviceLocator->get('EventManager'));
 
             if ($instance instanceof EntityManagerAwareInterface)
-                $instance->setEntityManager($serviceLocator->get('doctrine.entitymanager.orm_default'));
+                $instance->setEntityManager($serviceLocator->get('EntityManager'));
         });
 
         return $domainServiceFactory;

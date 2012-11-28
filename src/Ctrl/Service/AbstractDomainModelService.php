@@ -10,7 +10,9 @@ use Zend\ServiceManager;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 
-abstract class AbstractDomainModelService extends AbstractDomainService implements \Zend\EventManager\EventManagerAwareInterface
+abstract class AbstractDomainModelService
+    extends AbstractDomainService
+    implements \Zend\EventManager\EventManagerAwareInterface
 {
     /**
      * @var string

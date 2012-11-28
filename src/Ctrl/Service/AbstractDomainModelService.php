@@ -2,19 +2,20 @@
 
 namespace Ctrl\Service;
 
-use Ctrl\Domain\Model;
 use Ctrl\Domain\PersistableModel;
-use Ctrl\Form\Form;
-use Ctrl\Domain\Exception as DomainException;
-use Zend\ServiceManager;
+use Ctrl\Domain\ArrayCollection;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
+
 
 abstract class AbstractDomainModelService
     extends AbstractDomainService
     implements \Zend\EventManager\EventManagerAwareInterface
 {
     /**
+     * The full namespaced class name of the Domain Model
+     * that this DomainService instance Represents
+     *
      * @var string
      */
     protected $entity = '';
@@ -25,7 +26,9 @@ abstract class AbstractDomainModelService
     protected $events;
 
     /**
-     * @return array|PersistableModel[]
+     * Returns all models in the collection
+     *
+     * @return array|PersistableModel[]|ArrayCollection
      */
     public function getAll()
     {
@@ -35,9 +38,11 @@ abstract class AbstractDomainModelService
     }
 
     /**
-     * @param $id
+     * Returns the model instance identified by the passed value
+     *
+     * @param mixed|int $id
      * @return PersistableModel
-     * @throws \Exception
+     * @throws EntityNotFoundException
      */
     public function getById($id)
     {
@@ -46,13 +51,16 @@ abstract class AbstractDomainModelService
             ->setParameter('id', $id)
             ->getResult();
         if (!count($entities)) {
-            //TODO: fix exception
-            throw new \Exception($this->entity.' not found with id: '.$id);
+            throw new \Ctrl\Service\EntityNotFoundException($this->entity.' not found with id: '.$id);
         }
         return $entities[0];
     }
 
     /**
+     * Persist the model to storage
+     *  may attempt to persist related models
+     *  depending on configuration
+     *
      * @param PersistableModel $model
      */
     public function persist(PersistableModel $model)
@@ -62,40 +70,25 @@ abstract class AbstractDomainModelService
     }
 
     /**
-     * @param PersistableModel $model
+     * Remove the model to storage
+     *  may attempt to persist related models
+     *  depending on configuration
+     *
+     * @param \Ctrl\Domain\PersistableModel $model
      * @return AbstractDomainModelService
-     * @throws DomainException
      */
     public function remove(PersistableModel $model)
     {
-        if ($this->canRemove($model)) {
-            $this->getEntityManager()->remove($model);
-            $this->getEntityManager()->flush();
-            return $this;
-        }
-        throw DomainException::modelPersistanceException($model);
-    }
-
-    public function canRemove(PersistableModel $model)
-    {
-        return true;
-    }
-
-    /**
-     * @param Model $model
-     * @return Form
-     * @throws \Ctrl\Exception
-     */
-    public function getForm(Model $model = null)
-    {
-        throw new \Ctrl\Exception('Not implemented');
+        $this->getEntityManager()->remove($model);
+        $this->getEntityManager()->flush();
+        return $this;
     }
 
     /**
      * Inject an EventManager instance
      *
      * @param  EventManagerInterface $eventManager
-     * @return void
+     * @return AbstractDomainModelService
      */
     public function setEventManager(EventManagerInterface $eventManager)
     {

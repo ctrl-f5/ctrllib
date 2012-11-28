@@ -2,35 +2,38 @@
 
 namespace Ctrl\Service;
 
-use Zend\ServiceManager;
 use Ctrl\Service\AbstractDomainModelService;
+use Zend\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+use Doctrine\ORM\EntityManager;
 
 abstract class AbstractDomainService implements
     ServiceManager\ServiceLocatorAwareInterface,
     \Ctrl\ServiceManager\EntityManagerAwareInterface
 {
     /**
-     * @var ServiceManager\ServiceLocatorInterFace
+     * @var ServiceLocatorInterFace
      */
     protected $serviceLocator = null;
 
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     protected $entityManager = null;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $manager
+     * @param EntityManager $manager
      * @return AbstractService
      */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $manager)
+    public function setEntityManager(EntityManager $manager)
     {
         $this->entityManager = $manager;
         return $this;
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager|null
+     * @return EntityManager|null
      */
     public function getEntityManager()
     {
@@ -38,15 +41,15 @@ abstract class AbstractDomainService implements
     }
 
     /**
-     * @param ServiceManager\ServiceLocatorInterFace $serviceLocator
+     * @param ServiceLocatorInterFace $serviceLocator
      */
-    public function setServiceLocator(ServiceManager\ServiceLocatorInterFace $serviceLocator)
+    public function setServiceLocator(ServiceLocatorInterFace $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
     }
 
     /**
-     * @returns ServiceManager\ServiceLocatorInterFace
+     * @returns ServiceLocatorInterFace
      */
     public function getServiceLocator()
     {
@@ -54,6 +57,8 @@ abstract class AbstractDomainService implements
     }
 
     /**
+     * Retrieves a registered DomainService by name
+     *
      * @param $serviceName
      * @return AbstractDomainService|AbstractDomainModelService
      */
@@ -63,6 +68,15 @@ abstract class AbstractDomainService implements
         return $manager->get($serviceName);
     }
 
+    /**
+     * Move  models in an ordered collection
+     *
+     * @param $collection
+     * @param $id
+     * @param $dir
+     * @param array $methods
+     * @return mixed
+     */
     public function switchOrderInCollection($collection, $id, $dir, $methods = array('getOrder', 'setOrder'))
     {
         if (count($methods) == 2) {

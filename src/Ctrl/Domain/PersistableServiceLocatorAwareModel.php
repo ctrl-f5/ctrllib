@@ -33,7 +33,9 @@ abstract class PersistableServiceLocatorAwareModel
     }
 
     /**
-     * @param $serviceName
+     * Returns a registered DomainService
+     *
+     * @param string $serviceName
      * @return AbstractDomainService|AbstractDomainModelService
      */
     public function getDomainService($serviceName)

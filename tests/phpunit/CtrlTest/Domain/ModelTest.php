@@ -2,7 +2,6 @@
 
 namespace CtrlTest\Domain;
 
-require_once __DIR__.'/TestAssets/DummyModel.php';
 use CtrlTest\Domain\TestAssets\DummyModel;
 
 class ModelTest Extends \PHPUnit_Framework_TestCase

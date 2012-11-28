@@ -15,10 +15,11 @@ class Module
         /** @var $serviceManager \Zend\ServiceManager\ServiceManager */
         $serviceManager = $application->getServiceManager();
 
-        $serviceManager->setAlias('EntityManager', 'doctrine.entitymanager.orm_default');
         $this->initModules($serviceManager);
         $this->setPhpSettings($serviceManager);
         $this->initDoctrine($serviceManager);
+
+        $serviceManager->setAlias('EntityManager', 'doctrine.entitymanager.orm_default');
     }
 
     protected function initDoctrine(ServiceLocatorInterface $serviceManager)

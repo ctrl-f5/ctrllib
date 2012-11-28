@@ -1,7 +1,5 @@
 <?php
 
-namespace CtrlTest;
-
 use Zend\Version;
 use Ctrl\Domain\AbstractModel;
 

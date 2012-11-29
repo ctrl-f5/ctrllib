@@ -43,33 +43,54 @@ class AclFactoryTest extends ApplicationTestCase
         $instance = $this->factory->createService($serviceManager);
 
         $this->assertInstanceOf('Ctrl\Permissions\Acl', $instance);
+        $this->assertEquals('Ctrl\Permissions\Acl', get_class($instance));
     }
 
     public function testInstantiatesCustomClass()
     {
-        return;
         $serviceManager = $this->getServiceManager(array(
             'acl' => array(
-                'class' => 'custom',
+                'class' => 'CtrlTest\Permissions\TestAssets\CustomAcl',
             )
         ));
         $instance = $this->factory->createService($serviceManager);
 
-        $this->assertInstanceOf('Ctrl\Permissions\Acl', $this->service->getDomainService('DummyDomainService'));
+        $this->assertInstanceOf('Ctrl\Permissions\Acl', $instance);
+        $this->assertInstanceOf('CtrlTest\Permissions\TestAssets\CustomAcl', $instance);
+        $this->assertEquals('CtrlTest\Permissions\TestAssets\CustomAcl', get_class($instance));
     }
 
-    public function testCanParseResources()
+    public function testCanParseResourcesFromConfig()
     {
-        return;
         $serviceManager = $this->getServiceManager(array(
             'acl' => array(
                 'resources' => array(
-                    'TestResources' => 'CtrlTest\Service\TestAssets\DummyDomainService',
+                    'EmptyResources' => 'CtrlTest\Permissions\TestAssets\EmptyResources',
                 )
             )
         ));
         $instance = $this->factory->createService($serviceManager);
 
-        $this->assertInstanceOf('Ctrl\Permissions\Acl', $this->service->getDomainService('DummyDomainService'));
+        $this->assertEquals(2, count($instance->getResources()));
+        $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
+        $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
+    }
+
+    public function testCanParseCustomResourcesFromConfig()
+    {
+        $serviceManager = $this->getServiceManager(array(
+            'acl' => array(
+                'resources' => array(
+                    'EmptyResources' => 'CtrlTest\Permissions\TestAssets\CustomResources',
+                )
+            )
+        ));
+        $instance = $this->factory->createService($serviceManager);
+
+        $this->assertEquals(4, count($instance->getResources()));
+        $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
+        $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
+        $this->assertTrue($instance->hasResource('routes.testRoute1'));
+        $this->assertTrue($instance->hasResource('routes.testRoute2'));
     }
 }

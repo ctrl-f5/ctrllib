@@ -19,7 +19,6 @@ class DomainServiceLoaderFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');
-        var_dump(isset($config['domain_services']));
         $serviceConfig = new Config(
             isset($config['domain_services']) ? $config['domain_services'] : array()
         );
@@ -34,8 +33,14 @@ class DomainServiceLoaderFactory implements FactoryInterface
             if ($instance instanceof EventManagerAwareInterface)
                 $instance->setEventManager($serviceLocator->get('EventManager'));
 
-            if ($instance instanceof EntityManagerAwareInterface)
-                $instance->setEntityManager($serviceLocator->get('EntityManager'));
+            if ($instance instanceof EntityManagerAwareInterface) {
+                try {
+                    $instance->setEntityManager($serviceLocator->get('EntityManager'));
+                } catch (\Zend\ServiceManager\Exception\ServiceNotFoundException $e) {
+                    // no entitymanager set
+                    // TODO: log
+                }
+            }
         });
 
         return $domainServiceFactory;

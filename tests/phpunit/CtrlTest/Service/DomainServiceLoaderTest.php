@@ -3,6 +3,7 @@
 namespace CtrlTest\Service;
 
 use Zend\ServiceManager\ServiceManager;
+use Zend\Mvc\Service\ServiceManagerConfig;
 
 class DomainServiceLoaderTest extends \CtrlTest\ApplicationTest
 {
@@ -21,13 +22,17 @@ class DomainServiceLoaderTest extends \CtrlTest\ApplicationTest
 
     protected function setup()
     {
-        parent::setup();
-        $this->serviceLoader = $this->getServiceManager()->get('DomainServiceLoader');
+        $serviceConfig = new ServiceManagerConfig();
+        $this->serviceManager = new ServiceManager($serviceConfig);
+        $this->serviceManager->setService('Config', $this->defaultConfig);
+        $this->serviceManager->setAlias('Configuration', 'Config');
+        $factory = new \Ctrl\Service\DomainServiceLoaderFactory();
+        $this->serviceLoader = $factory->createService($this->serviceManager);
     }
 
     protected function teardown()
     {
-        parent::teardown();
+        $this->serviceManager = null;
         $this->serviceLoader = null;
     }
 
@@ -41,19 +46,9 @@ class DomainServiceLoaderTest extends \CtrlTest\ApplicationTest
 
     public function testLoaderInjectsServiceLocator()
     {
-        return;
         $service = $this->serviceLoader->get('DummyDomainService');
 
         $this->assertTrue(is_object($service->getServiceLocator()));
         $this->assertInstanceOf('Zend\ServiceManager\ServiceManager', $service->getServiceLocator());
-    }
-
-    public function testLoaderInjectsEntityManager()
-    {
-        return;
-        $service = $this->serviceLoader->get('DummyDomainService');
-
-        $this->assertTrue(is_object($service->getEntityManager()));
-        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $service->getEntityManager());
     }
 }

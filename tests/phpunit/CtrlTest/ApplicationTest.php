@@ -25,9 +25,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         /* @var $moduleManager \Zend\ModuleManager\ModuleManagerInterface */
         $moduleManager = $serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
-        var_dump($serviceManager->get('Configuration') === $serviceManager->get('ApplicationConfig'));
 
         return $serviceManager;
+    }
+
+    protected function getConfig(array $configuration = array())
+    {
+        $config = new \Zend\Config\Config(include __DIR__.'/../../test.config.php');
+        $config->merge(new \Zend\Config\Config($this->defaultConfig));
+        $config->merge(new \Zend\Config\Config($configuration));
+        return $config;
     }
 
     public function testCanCreateServiceManager()

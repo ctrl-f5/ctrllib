@@ -113,8 +113,12 @@ class Module
         return array(
             'factories' => array(
                 'DomainServiceLoader'       => 'Ctrl\Service\DomainServiceLoaderFactory',
+                'CtrlAcl'                   => 'Ctrl\Permissions\AclFactory',
                 'Log'                       => 'Ctrl\Log\LogFactory',
             ),
+            'aliases' => array(
+                'Acl' => 'CtrlAcl'
+            )
         );
     }
 }

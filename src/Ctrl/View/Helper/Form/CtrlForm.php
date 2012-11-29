@@ -79,12 +79,12 @@ class CtrlForm extends AbstractFormElement
         return '</fieldset></form></div>';
     }
 
-    public function createLabel(Form $form, $attr = array())
+    public function createLabel(Element $form, $attr = array())
     {
         return '<legend>'.$form->getLabel().'</legend>';
     }
 
-    public function createElement(Form $form, $attr = array())
+    public function createElement(Element $form, $attr = array())
     {
         $tmpAttr = $form->getAttributes();
         $form->setAttributes($this->_getElementAttr($form, $attr));

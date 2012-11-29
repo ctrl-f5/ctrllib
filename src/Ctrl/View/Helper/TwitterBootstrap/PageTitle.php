@@ -27,7 +27,7 @@ class PageTitle extends BasePageTitle
         '</div>';
     }
 
-    protected function createTitle($title, $level, $subtitle, $attr = array())
+    protected function createTitle($title, $level = 1, $subtitle = null, $attr = array())
     {
         return '<h'.$level.$this->htmlAttribs($this->_mergeAttributes($this->defaulElementAttributes, $attr)).'>'.
             $title.$subtitle.

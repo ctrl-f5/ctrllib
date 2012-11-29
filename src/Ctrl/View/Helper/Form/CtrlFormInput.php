@@ -7,7 +7,7 @@ use Ctrl\Form\Element\ElementInterface as CtrlElement;
 
 class CtrlFormInput extends AbstractFormElement
 {
-    protected function isRequired(Element $element)
+    protected function isRequired(CtrlElement $element)
     {
         if ($element instanceof \Ctrl\Form\Element\Element
             && $element->getForm()->getInputFilter()

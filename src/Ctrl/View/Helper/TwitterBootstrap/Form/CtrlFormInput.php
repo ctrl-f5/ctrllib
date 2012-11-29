@@ -28,7 +28,7 @@ class CtrlFormInput extends BaseInput
         ),
     );
 
-    protected function create(ZendElement $element, $attr = array())
+    protected function create($element, $attr = array())
     {
         if ($element instanceof Element) {
             if ($element->getForm()->getMessages($element->getName())) {
@@ -53,7 +53,7 @@ class CtrlFormInput extends BaseInput
         return parent::create($element, $attr);
     }
 
-    protected function createElement(Element $element, $attr = array())
+    protected function createElement(ZendElement $element, $attr = array())
     {
         if ($element instanceof Element && $element->getAttribute('type') == 'hidden') {
             return parent::createElement($element, $attr);

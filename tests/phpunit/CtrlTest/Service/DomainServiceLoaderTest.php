@@ -5,7 +5,7 @@ namespace CtrlTest\Service;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 
-class DomainServiceLoaderTest extends \CtrlTest\ApplicationTest
+class DomainServiceLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ServiceManager

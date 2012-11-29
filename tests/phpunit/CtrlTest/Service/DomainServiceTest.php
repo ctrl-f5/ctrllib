@@ -2,36 +2,51 @@
 
 namespace CtrlTest\Service;
 
-class DomainServiceTest extends \CtrlTest\ApplicationTest
-{
-    protected $serviceLoader;
+use CtrlTest\Service\TestAssets\DummyDomainService;
 
-    protected $defaultConfig = array(
-        'domain_services' => array(
-            'invokables' => array(
-                'DummyDomainService' => 'CtrlTest\Service\TestAssets\DummyDomainService',
-            )
-        )
-    );
+class DomainServiceTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var DummyDomainService
+     */
+    protected $service;
 
     protected function setup()
     {
-        parent::setup();
-        $this->serviceLoader = $this->getServiceManager($this->defaultConfig)->get('DomainServiceLoader');
+        $this->service = new DummyDomainService();
     }
 
     protected function teardown()
     {
-        parent::teardown();
-        $this->serviceLoader = null;
+        $this->service = null;
     }
 
-    public function testCanRetrieveDomainService()
+    public function testCanAccessServiceLocator()
     {
-        return;
-        $service = $this->serviceLoader->get('DummyDomainService');
+        $this->assertEquals($this->service->getServiceLocator(), null);
 
-        $this->assertTrue(is_object($service));
-        $this->assertInstanceOf('CtrlTest\Service\TestAssets\DummyDomainService', $service);
+        $serviceManager = new \Zend\ServiceManager\ServiceManager();
+        $this->service->setServiceLocator($serviceManager);
+
+        $this->assertSame($this->service->getServiceLocator(), $serviceManager);
+    }
+
+    public function testCanGetDomainService()
+    {
+        $serviceManager = new \Zend\ServiceManager\ServiceManager();
+        $serviceManager->setService('Config', array(
+            'domain_services' => array(
+                'invokables' => array(
+                    'DummyDomainService' => 'CtrlTest\Service\TestAssets\DummyDomainService',
+                )
+            )
+        ));
+        $serviceManager->setService('ServiceManager', $serviceManager);
+        $serviceManager->setAlias('Zend\ServiceManager\ServiceLocatorInterface', 'ServiceManager');
+        $serviceManager->setAlias('Configuration', 'Config');
+        $serviceManager->setFactory('DomainServiceLoader', new \Ctrl\Service\DomainServiceLoaderFactory());
+        $this->service->setServiceLocator($serviceManager);
+
+        $this->assertInstanceOf('CtrlTest\Service\TestAssets\DummyDomainService', $this->service->getDomainService('DummyDomainService'));
     }
 }

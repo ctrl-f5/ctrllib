@@ -1,95 +1,6 @@
 {
-    "hash": "024ab1fe0c6e4f835e1cdc939067b99c",
+    "hash": "665e6e511bc9367106c9e5c18a61c0b6",
     "packages": [
-        {
-            "name": "composer/installers",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/installers",
-                "reference": "a3d52d8414ec26533a540ebacbc1c20be568c83f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/composer/installers/archive/a3d52d8414ec26533a540ebacbc1c20be568c83f.zip",
-                "reference": "a3d52d8414ec26533a540ebacbc1c20be568c83f",
-                "shasum": ""
-            },
-            "replace": {
-                "shama/baton": "*"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev"
-            },
-            "time": "1353476469",
-            "type": "composer-installer",
-            "extra": {
-                "class": "Composer\\Installers\\Installer"
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Composer\\Installers\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "http://composer.github.com/installers/",
-            "keywords": [
-                "symfony",
-                "installer",
-                "zend",
-                "wordpress",
-                "cakephp",
-                "codeigniter",
-                "fuelphp",
-                "drupal",
-                "lithium",
-                "li3",
-                "joomla",
-                "laravel",
-                "phpbb",
-                "ppi",
-                "silverstripe",
-                "kohana",
-                "mako"
-            ]
-        },
-        {
-            "name": "ctrl-f5/ctrljs",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "http://github.com/ctrl-f5/ctrljs",
-                "reference": "5f8dee73a9da2deff5c2acfb12349f6375d6c65f"
-            },
-            "require": {
-                "composer/installers": "*"
-            },
-            "time": "1344913192",
-            "type": "zend-extra",
-            "installation-source": "source",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "CtrlJS",
-            "homepage": "http://ctrl-f5.net/",
-            "keywords": [
-                "ctrl-f5",
-                "zf2",
-                "js"
-            ]
-        },
         {
             "name": "doctrine/common",
             "version": "dev-master",
@@ -687,7 +598,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "ctrl-f5/ctrljs": 20,
         "doctrine/doctrine-orm-module": 20,
         "doctrine/doctrine-module": 20
     }

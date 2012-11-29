@@ -2,10 +2,11 @@
 
 namespace CtrlTest\Service;
 
+use CtrlTest\ApplicationTestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 
-class DomainServiceLoaderTest extends \PHPUnit_Framework_TestCase
+class DomainServiceLoaderTest extends ApplicationTestCase
 {
     /**
      * @var ServiceManager
@@ -22,17 +23,13 @@ class DomainServiceLoaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setup()
     {
-        $serviceConfig = new ServiceManagerConfig();
-        $this->serviceManager = new ServiceManager($serviceConfig);
-        $this->serviceManager->setService('Config', $this->defaultConfig);
-        $this->serviceManager->setAlias('Configuration', 'Config');
+        $serviceManager = $this->getServiceManager($this->defaultConfig);
         $factory = new \Ctrl\Service\DomainServiceLoaderFactory();
-        $this->serviceLoader = $factory->createService($this->serviceManager);
+        $this->serviceLoader = $factory->createService($serviceManager);
     }
 
     protected function teardown()
     {
-        $this->serviceManager = null;
         $this->serviceLoader = null;
     }
 

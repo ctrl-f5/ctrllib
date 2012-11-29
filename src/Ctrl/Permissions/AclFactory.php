@@ -25,7 +25,7 @@ class AclFactory implements FactoryInterface
         $acl = new $class();
 
         /*
-        * Set all system resources
+        * Add all system resources
         */
         if (isset($config['resources'])) {
             foreach ($config['resources'] as $class) {
@@ -36,17 +36,6 @@ class AclFactory implements FactoryInterface
                 }
             }
         }
-
-        /*
-         * fetch roles and their permissions
-         */
-        $roleService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthRole');
-        $acl->addRoles($roleService->getAll());
-        /*
-        * Always allow login page
-        */
-        $acl->allow($acl->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
-        $acl->allow($acl->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
 
         return $acl;
     }

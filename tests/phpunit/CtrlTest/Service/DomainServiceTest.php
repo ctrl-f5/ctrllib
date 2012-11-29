@@ -2,9 +2,10 @@
 
 namespace CtrlTest\Service;
 
+use CtrlTest\ApplicationTestCase;
 use CtrlTest\Service\TestAssets\DummyDomainService;
 
-class DomainServiceTest extends \PHPUnit_Framework_TestCase
+class DomainServiceTest extends ApplicationTestCase
 {
     /**
      * @var DummyDomainService
@@ -33,17 +34,13 @@ class DomainServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCanGetDomainService()
     {
-        $serviceManager = new \Zend\ServiceManager\ServiceManager();
-        $serviceManager->setService('Config', array(
+        $serviceManager = $this->getServiceManager(array(
             'domain_services' => array(
                 'invokables' => array(
                     'DummyDomainService' => 'CtrlTest\Service\TestAssets\DummyDomainService',
                 )
             )
         ));
-        $serviceManager->setService('ServiceManager', $serviceManager);
-        $serviceManager->setAlias('Zend\ServiceManager\ServiceLocatorInterface', 'ServiceManager');
-        $serviceManager->setAlias('Configuration', 'Config');
         $serviceManager->setFactory('DomainServiceLoader', new \Ctrl\Service\DomainServiceLoaderFactory());
         $this->service->setServiceLocator($serviceManager);
 

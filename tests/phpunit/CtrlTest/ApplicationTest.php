@@ -25,6 +25,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         /* @var $moduleManager \Zend\ModuleManager\ModuleManagerInterface */
         $moduleManager = $serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
+        var_dump($serviceManager->get('Configuration') === $serviceManager->get('ApplicationConfig'));
 
         return $serviceManager;
     }

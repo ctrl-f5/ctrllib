@@ -19,6 +19,7 @@ class DomainServiceLoaderFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');
+        var_dump(isset($config['domain_services']));
         $serviceConfig = new Config(
             isset($config['domain_services']) ? $config['domain_services'] : array()
         );

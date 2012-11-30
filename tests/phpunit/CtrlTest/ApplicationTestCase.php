@@ -46,4 +46,6 @@ class ApplicationTestCase extends \PHPUnit_Framework_TestCase
         $config->merge(new \Zend\Config\Config($configuration));
         return $config;
     }
+
+    public function testNothing() {}
 }

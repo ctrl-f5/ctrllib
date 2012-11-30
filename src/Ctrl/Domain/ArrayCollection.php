@@ -14,17 +14,19 @@ class ArrayCollection extends DoctrineCollection
      *  - the getter and setter of the order property must be public
      *  - the getter and setter
      *
-     * @param array|ArrayCollection $collection
      * @param mixed $id id of the element that needs to be moved
      * @param string $dir wether to move it up or down
      * @param string $getter the function used to retrieve the order of a model
      * @param string $setter the function used to set the order of a model
+     * @param array|ArrayCollection $collection
      * @return ArrayCollection
      */
-    public function moveOrderInCollection($collection, $id, $dir, $getter = 'getOrder', $setter =  'setOrder')
+    public function moveOrderInCollection($id, $dir, $getter = 'getOrder', $setter =  'setOrder', $collection = null)
     {
+        if ($collection == null) $collection = $this;
+
         //get order of source model and check its validity
-        $from = $this->getFirstInCollectionWithProperty($collection, 'getId', $id);
+        $from = $this->getFirstInCollectionWithProperty('getId', $id, $collection);
         $order = $from->$getter();
         if (($order >= count($collection) && $dir == self::ORDER_MOVE_DIR_DOWN) || ($order <= 1 && $dir == self::ORDER_MOVE_DIR_UP)) {
             return $collection;
@@ -34,7 +36,7 @@ class ArrayCollection extends DoctrineCollection
         elseif ($dir == self::ORDER_MOVE_DIR_DOWN) $order++;
 
         //switch the orders
-        $to = $this->getFirstInCollectionWithProperty($collection, $getter, $order);
+        $to = $this->getFirstInCollectionWithProperty($getter, $order, $collection);
         $to->$setter($from->$getter());
         $from->$setter($order);
 
@@ -45,14 +47,16 @@ class ArrayCollection extends DoctrineCollection
      * Returns the first class in the collection that returns
      * the same value as $value
      *
-     * @param array|ArrayCollection $collection
      * @param string $getter the method to check the value against
      * @param mixed $value the value to compare to the result of the called method
+     * @param array|ArrayCollection $collection
      * @return ArrayCollection
      * @throws Exception
      */
-    public function getFirstInCollectionWithProperty($collection, $getter, $value)
+    public function getFirstInCollectionWithProperty($getter, $value, $collection = null)
     {
+        if ($collection == null) $collection = $this;
+
         // only check once, assume all same classes
         $checkedMethod = false;
         foreach ($collection as $model) {

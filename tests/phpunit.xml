@@ -1,7 +1,9 @@
-<phpunit colors="true" bootstrap="./bootstrap.php" verbose="1"
-         backupGlobals="false"
-         processIsolation="false"
-         stopOnFailure="true"
+<phpunit colors="true" bootstrap="./bootstrap.php"
+         verbose="true"
+         debug="true"
+         backupGlobals="true"
+         processIsolation="true"
+         stopOnFailure="false"
          syntaxCheck="true">
     <testsuites>
         <testsuite name="ctrllib testsuite">

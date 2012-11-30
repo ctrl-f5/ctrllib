@@ -2,18 +2,19 @@
 
 namespace CtrlTest\Domain;
 
-use CtrlTest\Domain\TestAssets\DummyPersistableModel;
+use CtrlTest\DbTestCase;
+use CtrlTest\Domain\TestAssets\DummyEntity;
 
-class PersistableModelTest Extends \PHPUnit_Framework_TestCase
+class PersistableModelTest Extends DbTestCase
 {
     /**
-     * @var DummyPersistableModel
+     * @var DummyEntity
      */
     protected $model;
 
     public function setUp()
     {
-        $this->model = new DummyPersistableModel();
+        $this->model = new DummyEntity();
     }
 
     public function tearDown()
@@ -26,5 +27,16 @@ class PersistableModelTest Extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->model->getId());
         $this->model->setId('test');
         $this->assertEquals('test', $this->model->getId());
+    }
+
+    public function testCanPersist()
+    {
+        $em = $this->getEntityManager(array(__DIR__.'/TestAssets/metadata'));
+        $this->createSchema($em);
+
+        $this->assertNull($this->model->getId());
+        $em->persist($this->model);
+        $em->flush();
+        $this->assertNotNull($this->model->getId());
     }
 }

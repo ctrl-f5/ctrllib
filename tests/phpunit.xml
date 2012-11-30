@@ -1,7 +1,7 @@
 <phpunit colors="true" bootstrap="./bootstrap.php"
          verbose="true"
          debug="true"
-         backupGlobals="true"
+         backupGlobals="false"
          processIsolation="true"
          stopOnFailure="false"
          syntaxCheck="true">

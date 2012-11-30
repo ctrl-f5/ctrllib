@@ -2,11 +2,6 @@
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
-use DoctrineORMModuleTest\Framework\TestCase;
-
-chdir(__DIR__);
-
-$previousDir = '.';
 
 if (!file_exists('test.config.php')) {
     throw new RuntimeException('Unable to locate "test.config.php":');
@@ -20,6 +15,8 @@ if (file_exists($autoload)) {
 } else {
     throw new RuntimeException('vendor/autoload.php could not be found. Did you run `php composer.phar install`?');
 }
+
+if (!defined('TESTS_DOCTRINE_PROXY_DIR')) define('TESTS_DOCTRINE_PROXY_DIR', __DIR__.'/db/proxies/');
 
 //$configuration = require 'test.config.php';
 //

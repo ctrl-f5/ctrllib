@@ -2,9 +2,9 @@
 
 namespace CtrlTest\Domain\TestAssets;
 
-use Ctrl\Domain\PersistableModel;
+use Ctrl\Domain\PersistableServiceLocatorAwareModel;
 
-class DummyEntity extends DummyPersistableModel
+class DummyEntity extends PersistableServiceLocatorAwareModel
 {
     protected $stringProperty = 'test';
 
@@ -15,6 +15,11 @@ class DummyEntity extends DummyPersistableModel
     public function __construct()
     {
         $this->dateProperty = new \DateTime();
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function setDateProperty($dateProperty)

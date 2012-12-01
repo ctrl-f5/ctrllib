@@ -2,7 +2,7 @@
          verbose="true"
          debug="true"
          backupGlobals="false"
-         processIsolation="true"
+         processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="true">
     <testsuites>

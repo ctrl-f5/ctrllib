@@ -5,7 +5,7 @@ namespace CtrlTest\Domain;
 use CtrlTest\DbTestCase;
 use CtrlTest\Domain\TestAssets\DummyEntity;
 
-class PersistableModelTest Extends DbTestCase
+class PersistableModelTest extends DbTestCase
 {
     /**
      * @var DummyEntity

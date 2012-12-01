@@ -6,7 +6,7 @@ use CtrlTest\ApplicationTestCase;
 use CtrlTest\Domain\TestAssets\DummyPersistableServiceLocatorAwareModel;
 use Zend\ServiceManager\ServiceManager;
 
-class DummyPersistableServiceLocatorAwareModelTest extends ApplicationTestCase
+class PersistableServiceLocatorAwareModelTest extends ApplicationTestCase
 {
     /**
      * @var DummyPersistableServiceLocatorAwareModel

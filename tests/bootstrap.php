@@ -17,18 +17,3 @@ if (file_exists($autoload)) {
 }
 
 if (!defined('TESTS_DOCTRINE_PROXY_DIR')) define('TESTS_DOCTRINE_PROXY_DIR', __DIR__.'/db/proxies/');
-
-//$configuration = require 'test.config.php';
-//
-//$serviceManager = new ServiceManager(new ServiceManagerConfig(
-//    isset($configuration['service_manager']) ? $configuration['service_manager'] : array()
-//));
-//$serviceManager->setService('ApplicationConfig', $configuration);
-//$serviceManager->setFactory('ServiceListener', 'Zend\Mvc\Service\ServiceListenerFactory');
-//
-///** @var $moduleManager \Zend\ModuleManager\ModuleManager */
-//$moduleManager = $serviceManager->get('ModuleManager');
-//$moduleManager->loadModules();
-//$serviceManager->setAllowOverride(true);
-//
-//TestCase::setServiceManager($serviceManager);

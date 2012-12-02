@@ -37,7 +37,7 @@ class Acl extends ZendAcl
     }
 
     /**
-     * @param $roles \Ctrl\Module\Auth\Domain\Role[]|array
+     * @param $roles \CtrlAuth\Domain\Role[]|array
      * @return Acl
      */
     public function addRoles($roles)

@@ -5,7 +5,7 @@ namespace CtrlTest;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 
-class ApplicationTestCase extends \PHPUnit_Framework_TestCase
+abstract class ApplicationTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Zend\Mvc\Application
@@ -46,6 +46,4 @@ class ApplicationTestCase extends \PHPUnit_Framework_TestCase
         $config->merge(new \Zend\Config\Config($configuration));
         return $config;
     }
-
-    public function testNothing() {}
 }

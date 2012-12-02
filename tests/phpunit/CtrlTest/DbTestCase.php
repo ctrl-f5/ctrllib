@@ -7,7 +7,7 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
-class DbTestCase extends ApplicationTestCase
+abstract class DbTestCase extends ApplicationTestCase
 {
     /**
      * @var EntityManager
@@ -38,6 +38,4 @@ class DbTestCase extends ApplicationTestCase
         $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
         $schemaTool->updateSchema(array());
     }
-
-    public function testNothing() {}
 }

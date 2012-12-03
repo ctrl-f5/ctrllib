@@ -40,8 +40,9 @@ abstract class AbstractHtmlElement extends ZendAbstractHtmlElement
     protected function _getElementAttr($element, $attr = array())
     {
         $elemAttr = ($element instanceof Element) ? $element->getAttributes(): array();
+        $defaults = (isset($attr['bare']) && $attr['bare']) ? array(): $this->defaulElementAttributes;
         $clean = $this->_mergeAttributes(array(
-            $this->defaulElementAttributes,
+            $defaults,
             $elemAttr,
             $attr
         ));

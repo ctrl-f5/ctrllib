@@ -30,6 +30,9 @@ class CtrlFormInput extends BaseInput
 
     protected function create($element, $attr = array())
     {
+        if (isset($attr['bare']) && $attr['bare']) {
+            return parent::createElement($element, $attr);
+        }
         if ($element instanceof Element) {
             if ($element->getForm()->getMessages($element->getName())) {
                 $tmpAttr = (isset($attr['container'])) ? $attr['container']: array();

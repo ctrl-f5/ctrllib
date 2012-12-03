@@ -27,20 +27,12 @@ class CtrlForm extends AbstractFormElement
      */
     public function createForm(Form $element, $actions = array(), $attr = array())
     {
-        if ($actions === true) {
-            $actions = array(
-                $this->view->ctrlButton('submit', array('value' => 'save'), 'primary'),
-                $this->view->ctrlButton('link', array('value' => 'cancel', 'href' => $element->getReturnUrl()))
-            );
-        }
-
         $html = array();
         $html[] = $this->start($element, $attr);
         foreach ($element->getElements() as $el) {
             $html[] = $this->view->ctrlFormInput($el);
         }
-        $html[] = $this->view->ctrlFormActions($actions);
-        $html[] = $this->end($element);
+        $html[] = $this->end($element, $actions);
 
         return implode(PHP_EOL, $html);
     }
@@ -53,13 +45,13 @@ class CtrlForm extends AbstractFormElement
         return $html;
     }
 
-    public function end(Form $form)
+    public function end(Form $form, $actions = array())
     {
         $hash = spl_object_hash($form);
         $attr = isset($this->startedForms[$hash]) ? $this->startedForms[$hash] : array();
         unset($this->startedForms[$hash]);
 
-        $html = $this->createEnd($form, $attr);
+        $html = $this->createEnd($form, $attr, $actions);
 
         return $html;
     }
@@ -74,9 +66,25 @@ class CtrlForm extends AbstractFormElement
             $this->createLabel($form, $attr);
     }
 
-    public function createEnd(Form $form, $attr = array())
+    protected function getDefaultActions($form)
     {
-        return '</fieldset></form></div>';
+        return array(
+            $this->view->ctrlButton('submit', array('value' => 'save'), 'primary'),
+            $this->view->ctrlButton('link', array('value' => 'cancel', 'href' => $form->getReturnUrl()))
+        );
+    }
+
+    public function createEnd(Form $form, $attr = array(), $actions = array())
+    {
+        if ($actions === true) {
+            $actions = $this->getDefaultActions($form);
+        }
+        if (!is_array($actions)) {
+            throw new \Ctrl\Exception('$actions must be an array of options or true for default actions');
+        }
+        $html[] = $this->view->ctrlFormActions($actions);
+        $html[] = '</fieldset></form></div>';
+        return implode(PHP_EOL, $html);
     }
 
     public function createLabel(Element $form, $attr = array())

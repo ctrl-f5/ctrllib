@@ -78,6 +78,8 @@ class Module
                     'CtrlButton' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton',
                     'CtrlFormActions' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions',
                     'OrderControls' => 'Ctrl\View\Helper\TwitterBootstrap\OrderControls',
+                    'ButtonBar' => 'Ctrl\View\Helper\TwitterBootstrap\ButtonBar',
+                    'ButtonGroup' => 'Ctrl\View\Helper\TwitterBootstrap\ButtonGroup',
                 ),
                 'aliases' => array(
                     'navigation' => 'CtrlNavigation'

@@ -35,6 +35,14 @@ class PhpView extends \Zend\View\Renderer\PhpRenderer
     /**
      * @return string
      */
+    public function buttonBar($buttonGroups = array(), $style = null){}
+    /**
+     * @return string
+     */
+    public function buttonGroup($buttons = array(), $style = null){}
+    /**
+     * @return string
+     */
     public function ctrlFormActions($content, $attr = array()){}
     /**
      * @return \Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm

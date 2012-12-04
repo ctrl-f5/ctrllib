@@ -42,6 +42,10 @@ class CtrlForm extends AbstractFormElement
         $this->startedForms[spl_object_hash($form)] = $attr;
         $html = $this->createStart($form, $attr);
 
+        if (!isset($attr['combined-errors']) || $attr['combined-errors']) {
+            $html .= PHP_EOL . $this->view->ctrlFormErrors($form);
+        }
+
         return $html;
     }
 

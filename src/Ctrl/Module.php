@@ -75,6 +75,7 @@ class Module
                     'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',
                     'CtrlFormInput' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormInput',
                     'CtrlForm' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlForm',
+                    'CtrlFormErrors' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormErrors',
                     'CtrlButton' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlButton',
                     'CtrlFormActions' => 'Ctrl\View\Helper\TwitterBootstrap\Form\CtrlFormActions',
                     'OrderControls' => 'Ctrl\View\Helper\TwitterBootstrap\OrderControls',

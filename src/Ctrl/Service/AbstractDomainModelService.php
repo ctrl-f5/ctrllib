@@ -12,6 +12,8 @@ abstract class AbstractDomainModelService
     extends AbstractDomainService
     implements \Zend\EventManager\EventManagerAwareInterface
 {
+    const EVENT_ENTITY_CREATE = 'Ctrl\Service\DomainEntity.create';
+
     /**
      * The full namespaced class name of the Domain Model
      * that this DomainService instance Represents
@@ -113,5 +115,12 @@ abstract class AbstractDomainModelService
             $this->setEventManager(new EventManager());
         }
         return $this->events;
+    }
+
+    public function getNewEntity()
+    {
+        $entity = new $this->entity;
+        $this->events->trigger(self::EVENT_ENTITY_CREATE, $this, array('entity' => $entity));
+        return $entity;
     }
 }

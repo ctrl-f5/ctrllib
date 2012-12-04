@@ -36,9 +36,9 @@ class PageTitle extends AbstractHtmlElement
 
     protected function create($title, $subtitle = null, $attr = array())
     {
-        return '<div '.$this->htmlAttribs($this->_getContainerAttr($title, $attr)).'>'.
-            $this->createTitle($title, $attr).$this->createSubtitle($subtitle, $attr).
-        '</div>';
+        return parent::create(
+            $this->createTitle($title, $attr) . $this->createSubtitle($subtitle, $attr)
+        );
     }
 
     protected function createTitle($title, $attr = array())

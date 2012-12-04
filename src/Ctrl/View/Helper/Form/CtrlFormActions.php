@@ -9,8 +9,8 @@ use Ctrl\Form\Form;
 
 class CtrlFormActions extends AbstractHtmlElement
 {
-    protected function createElement($content, $attr = array())
+    protected function create($content, $attr = array())
     {
-        return implode(' ', (array)$content);
+        return parent::create(implode(' ', (array)$content), $attr);
     }
 }

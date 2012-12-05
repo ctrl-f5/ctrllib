@@ -76,8 +76,19 @@ class Acl extends ZendAcl
         return $sets;
     }
 
-    public function hasAccessToRouteResource($resource)
+    public function isAllowedListResource($role, $list, $resource = null)
     {
+        if ($resource) {
+            $resource = $list.'.'.$resource;
+        } else {
+            $resource = $list;
+        }
 
+        return $this->isAllowed($role, $resource);
+    }
+
+    public function dumpRoles()
+    {
+        return $this->roleRegistry;
     }
 }

@@ -18,10 +18,10 @@ class CustomResources extends \Ctrl\Permissions\Resources
 
         if ($set) {
             if (isset($set, $resources)) {
-                return $this->flattenResourceArray($resources[$set], $set);
+                $resources = $this->assertResources($resources[$set], array($set));
             }
             return array();
         }
-        return $set;
+        return $this->assertResources($resources);
     }
 }

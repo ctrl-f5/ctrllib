@@ -81,12 +81,13 @@ class AclFactoryTest extends ApplicationTestCase
         $serviceManager = $this->getServiceManager(array(
             'acl' => array(
                 'resources' => array(
-                    'EmptyResources' => 'CtrlTest\Permissions\TestAssets\CustomResources',
+                    'CustomResources' => 'CtrlTest\Permissions\TestAssets\CustomResources',
                 )
             )
         ));
         $instance = $this->factory->createService($serviceManager);
 
+        //var_dump($instance->getResources());
         $this->assertEquals(4, count($instance->getResources()));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));

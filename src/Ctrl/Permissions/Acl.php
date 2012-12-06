@@ -16,24 +16,33 @@ class Acl extends ZendAcl
     public function addSystemResources(Resources $resources)
     {
         $this->systemResources[spl_object_hash($resources)] = $resources;
-        foreach ($resources->getSets() as $set) {
-            if (!$this->hasResource($set)) {
-                $this->addResource($set);
+        $this->assertResourceTree((array)$resources->getResources());
+    }
+
+    public function getResourceTree()
+    {
+        $tree = array();
+        foreach ($this->systemResources as $resource) {
+            $tree = $resource->mergeResourceTree($tree);
+        }
+
+        return $tree;
+    }
+
+    protected function assertResourceTree(array $resources, $parent = null)
+    {
+        foreach ($resources as $key => $val) {
+            $current = ($parent) ? $parent . '.' . $key : $key;
+            if (!$this->hasResource($current)) {
+                $this->addResource($current, $parent);
             }
-            $this->assertResources((array)$resources->getResources($set), $set);
+            $this->assertResourceTree($val, $current);
         }
     }
 
-    protected function assertResources(array $resources, $parent = null)
+    public function getResourceNameFromPath($path)
     {
-        foreach ($resources as $name => $resource) {
-            if (is_string($resource)) {
-                $this->addResource($resource, $parent);
-            } else if (is_array($resource)) {
-                $this->addResource($name, $parent);
-                $this->assertResources($resource, $name);
-            }
-        }
+        return implode('.', $path);
     }
 
     /**
@@ -85,10 +94,5 @@ class Acl extends ZendAcl
         }
 
         return $this->isAllowed($role, $resource);
-    }
-
-    public function dumpRoles()
-    {
-        return $this->roleRegistry;
     }
 }

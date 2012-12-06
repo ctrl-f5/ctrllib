@@ -71,6 +71,7 @@ class Menu extends ZendMenu
         if ($resource) {
             foreach ($roles as $r) {
                 if ($acl->hasResource($resource) && $acl->isAllowed($r, $resource)) {
+                    var_dump($resource);
                     return true;
                 }
             }

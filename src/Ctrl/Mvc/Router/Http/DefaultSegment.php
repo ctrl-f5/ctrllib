@@ -9,48 +9,59 @@ use Zend\Stdlib\RequestInterface as Request;
 
 class DefaultSegment
 {
-    public static function factory($namespace, $prefix = '', $childroutes = array())
+    public static function factory($namespace, $root = '', $childroutesPost = array(), $childroutesPre = array())
     {
         $config = array(
             'type'    => 'Segment',
             'options' => array(
-                'route'    => $prefix.'[/:controller][/:action]',
-                'constraints' => array(
-                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                ),
+                'route'    => $root,
                 'defaults' => array(
                     '__NAMESPACE__' => $namespace,
-                    'controller'    => 'Index',
-                    'action'        => 'index',
                 ),
             ),
-            'may_terminate' => true,
+            'may_terminate' => false,
             'child_routes' => array(
-                'id' => array(
+                'default' => array(
                     'type'    => 'Segment',
                     'may_terminate' => true,
                     'options' => array(
-                        'route'    => '/[:id]',
+                        'route' => '[/:controller][/:action]',
                         'constraints' => array(
-                            'id'     => '[0-9]+',
+                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        ),
+                        'defaults' => array(
+                            'controller'    => 'Index',
+                            'action'        => 'index',
                         ),
                     ),
                     'child_routes' => array(
+                        'id' => array(
+                            'type'    => 'Segment',
+                            'may_terminate' => true,
+                            'options' => array(
+                                'route'    => '/[:id]',
+                                'constraints' => array(
+                                    'id'     => '[0-9]+',
+                                ),
+                            ),
+                            'child_routes' => array(
+                                'query' => array(
+                                    'type'    => 'Query',
+                                    'may_terminate' => true,
+                                ),
+                            ),
+                        ),
                         'query' => array(
                             'type'    => 'Query',
                             'may_terminate' => true,
                         ),
                     ),
                 ),
-                'query' => array(
-                    'type'    => 'Query',
-                    'may_terminate' => true,
-                ),
             ),
         );
 
-        return self::addChildRoutes($config, $childroutes);
+        return self::addChildRoutes($config, $childroutesPost);
     }
 
     protected static function addChildRoutes($config, $childRoutes)
@@ -88,8 +99,8 @@ class DefaultSegment
                 }
                 // merge the child routes, with the new ones first
                 $config['child_routes'] = array_merge(
-                    array($key => $route),
-                    $config['child_routes']
+                    $config['child_routes'],
+                    array($key => $route)
                 );
 
             }

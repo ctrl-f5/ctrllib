@@ -13,6 +13,14 @@ class Acl extends ZendAcl
      */
     protected $systemResources = array();
 
+    protected function getRoleRegistry()
+    {
+        if (null === $this->roleRegistry) {
+            $this->roleRegistry = new RoleRegistry();
+        }
+        return $this->roleRegistry;
+    }
+
     public function addSystemResources(Resources $resources)
     {
         $this->systemResources[spl_object_hash($resources)] = $resources;
@@ -94,5 +102,10 @@ class Acl extends ZendAcl
         }
 
         return $this->isAllowed($role, $resource);
+    }
+
+    public function dumpRoleRegistry()
+    {
+        return $this->roleRegistry;
     }
 }

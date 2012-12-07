@@ -8,4 +8,4 @@ before_install:
   - php composer.phar install
   - cd tests
 
-script: phpunit --verbose
+script: phpunit --verbose --debug

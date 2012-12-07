@@ -14,8 +14,11 @@ class ButtonGroup extends AbstractHtmlElement
         return $html;
     }
 
-    protected function create($buttons = array(), $subtitle = null, $attr = array())
+    protected function create($buttons = array(), $attr = array())
     {
+        if (is_string($buttons)) {
+            $buttons = array($buttons);
+        }
         return '<div '.$this->htmlAttribs($this->_getContainerAttr(null, $attr)).'>'.
             implode(PHP_EOL, $buttons).
         '</div>';

@@ -16,6 +16,9 @@ class ButtonBar extends AbstractHtmlElement
 
     protected function create($groups = array(), $subtitle = null, $attr = array())
     {
+        if (is_string($groups)) {
+            $groups = array($groups);
+        }
         return '<div '.$this->htmlAttribs($this->_getContainerAttr(null, $attr)).'>'.
             implode(PHP_EOL, $groups).
         '</div>';

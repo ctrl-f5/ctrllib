@@ -2,10 +2,9 @@
 
 namespace Ctrl\View\Helper\TwitterBootstrap;
 
-use Zend\View\Helper\AbstractHtmlElement as ZendAbstractHtmlElement;
-use Ctrl\View\Helper\AbstractHtmlElement;
+use Ctrl\View\Helper\ButtonGroup as BaseButtonGroup;
 
-class ButtonGroup extends AbstractHtmlElement
+class ButtonGroup extends BaseButtonGroup
 {
     protected $defaultContainerAttributes = array(
         'class' => 'btn-group'
@@ -20,6 +19,9 @@ class ButtonGroup extends AbstractHtmlElement
 
     protected function create($buttons = array(), $attr = array())
     {
+        if (is_string($buttons)) {
+            $buttons = array($buttons);
+        }
         if (!isset($attr['container']) && isset($attr['pull-right']) && $attr['pull-right']) {
             $attr['container']['class'] = 'pull-right';
         }

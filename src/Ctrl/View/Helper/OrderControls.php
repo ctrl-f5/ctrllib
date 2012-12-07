@@ -15,24 +15,26 @@ class OrderControls extends AbstractHtmlElement
 
     protected function createUp($route, $params = array(), $attr = array())
     {
+        $attr['label'] = 'down';
         return $this->create(
             $this->view->url($route, $params),
-            'up',
             $attr
         );
     }
 
     protected function createDown($route, $params = array(), $attr = array())
     {
+        $attr['label'] = 'up';
         return $this->create(
             $this->view->url($route, $params),
-            'down',
             $attr
         );
     }
 
-    protected function create($url, $label, $attr = array())
+    protected function create($url, $attr = array())
     {
+        $label = $attr['label'];
+        unset($attr['label']);
         $attr['href'] = $url;
         $html = '<a'.$this->htmlAttribs($this->_getElementAttr(null, $attr)).'">'.
             $label.

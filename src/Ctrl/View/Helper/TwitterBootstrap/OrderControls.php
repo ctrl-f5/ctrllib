@@ -13,9 +13,9 @@ class OrderControls extends BaseOrderControls
     protected function createUp($route, $params = array(), $attr = array())
     {
         $params['dir'] = 'up';
+        $attr['label'] = '<i class="icon-circle-arrow-up"></i>';
         return $this->create(
             $this->view->url($route, $params),
-            '<i class="icon-circle-arrow-up"></i>',
             $attr
         );
     }
@@ -23,9 +23,9 @@ class OrderControls extends BaseOrderControls
     protected function createDown($route, $params = array(), $attr = array())
     {
         $params['dir'] = 'down';
+        $attr['label'] = '<i class="icon-circle-arrow-down"></i>';
         return $this->create(
             $this->view->url($route, $params),
-            '<i class="icon-circle-arrow-down"></i>',
             $attr
         );
     }

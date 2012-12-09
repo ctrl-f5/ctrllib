@@ -21,24 +21,24 @@ class ArrayCollection extends DoctrineCollection
      * @param array|ArrayCollection $collection
      * @return ArrayCollection
      */
-    public function moveOrderInCollection($id, $dir, $getter = 'getOrder', $setter =  'setOrder', $collection = null)
+    public function moveOrderInCollection($id, $dir, $collection = null, $getter = 'getOrder', $setter =  'setOrder')
     {
         if ($collection == null) $collection = $this;
 
         //get order of source model and check its validity
         $from = $this->getFirstInCollectionWithProperty('getId', $id, $collection);
-        $order = $from->$getter();
-        if (($order >= count($collection) && $dir == self::ORDER_MOVE_DIR_DOWN) || ($order <= 1 && $dir == self::ORDER_MOVE_DIR_UP)) {
+        $order = $this->invokeGetter($from, $getter);
+        if ($order <= 0 || ($order >= count($collection) && $dir == self::ORDER_MOVE_DIR_UP) || ($order == 1 && $dir == self::ORDER_MOVE_DIR_DOWN)) {
             return $collection;
         }
 
-        if ($dir == self::ORDER_MOVE_DIR_UP) $order--;
-        elseif ($dir == self::ORDER_MOVE_DIR_DOWN) $order++;
+        if ($dir == self::ORDER_MOVE_DIR_DOWN) $order--;
+        elseif ($dir == self::ORDER_MOVE_DIR_UP) $order++;
 
         //switch the orders
         $to = $this->getFirstInCollectionWithProperty($getter, $order, $collection);
-        $to->$setter($from->$getter());
-        $from->$setter($order);
+        $this->invokeSetter($to, $setter, $this->invokeGetter($from, $getter));
+        $this->invokeSetter($from, $setter, $order);
 
         return $collection;
     }
@@ -50,7 +50,7 @@ class ArrayCollection extends DoctrineCollection
      * @param string $getter the method to check the value against
      * @param mixed $value the value to compare to the result of the called method
      * @param array|ArrayCollection $collection
-     * @return ArrayCollection
+     * @return object
      * @throws Exception
      */
     public function getFirstInCollectionWithProperty($getter, $value, $collection = null)
@@ -61,13 +61,26 @@ class ArrayCollection extends DoctrineCollection
         $checkedMethod = false;
         foreach ($collection as $model) {
             if (!$checkedMethod) {
-                if (!method_exists($model, $getter)) {
+                if (!is_callable($getter) && !method_exists($model, $getter)) {
                     throw new Exception("Invalid getter $getter for class: ".get_class($model));
                 }
                 $checkedMethod = true;
             }
-            if ($model->$getter() == $value) return $model;
+            if ($this->invokeGetter($model, $getter) == $value) return $model;
         }
         throw new Exception("No ".get_class($model)." found with $getter($value)");
+    }
+
+    protected function invokeGetter($object, $getter)
+    {
+        if (is_string($getter)) return $object->$getter();
+        if (is_callable($getter)) return $getter($object);
+    }
+
+    protected function invokeSetter($object, $setter, $value)
+    {
+
+        if (is_string($setter)) return $object->$setter($value);
+        if (is_callable($setter)) return $setter($object, $value);
     }
 }

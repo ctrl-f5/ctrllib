@@ -55,8 +55,8 @@ class ArrayCollectionTest Extends \PHPUnit_Framework_TestCase
             new DummyOrderModel(3, 3),
         );
         $this->collection = new ArrayCollection($models);
-        // move lqst element one up
-        $this->collection->moveOrderInCollection(3, ArrayCollection::ORDER_MOVE_DIR_UP);
+        // move last element one up
+        $this->collection->moveOrderInCollection(3, ArrayCollection::ORDER_MOVE_DIR_DOWN);
 
         $this->assertEquals(3, count($this->collection));
         $this->assertSame($models[2], $this->collection->getFirstInCollectionWithProperty('getOrder', 2));

@@ -22,6 +22,9 @@ class CtrlButton extends AbstractHtmlElement
             case 'link':
                 return $this->createlink($attr);
                 break;
+            case 'dropdown':
+                return $this->createDropdown($attr);
+                break;
             case 'button':
             default:
                 return $this->createButton($attr);
@@ -43,6 +46,28 @@ class CtrlButton extends AbstractHtmlElement
             $name.
             '</a>'.
             PHP_EOL;
+    }
+
+    protected function createDropdown($attr = array())
+    {
+        if (!isset($attr['children']) || !is_array($attr['children']) || !count($attr['children'])) return '';
+
+        $children = $attr['children'];
+        unset($attr['children']);
+
+        $html = array();
+        $name = isset($attr['value']) ? $attr['value'] : '';
+        $html[] = '<a '.$this->htmlAttribs($this->_getElementAttr(null, $attr)).' data-toggle="dropdown" href="#">'
+                    .$name.' <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">';
+
+        foreach ($children as $child) {
+            $html[] ='<a href="'.$child['url'].'">'.$child['content'].'</a>';
+        }
+        $html[] = '</ul>';
+
+        return implode(PHP_EOL, $html).PHP_EOL;
     }
 
     protected function createButton($attr = array())

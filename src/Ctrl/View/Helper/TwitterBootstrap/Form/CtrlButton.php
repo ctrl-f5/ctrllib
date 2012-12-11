@@ -41,6 +41,9 @@ class CtrlButton extends BaseButton
         if (isset($attr['url']) && $attr['url']) {
             $attr['href'] = $attr['url'];
         }
+        if ($type == 'dropdown') {
+            $attr['class'][] = 'dropdown-toggle';
+        }
         $attr = $this->_mergeAttributes(array($style, $attr));
         return $this->create($type, $attr);
     }

@@ -30,19 +30,19 @@ class Mvc extends MvcPage
                     if (!isset($myParams['action'])) $myParams['action'] = 'index';
                     //check the controller and action params
                     if (strtolower($this->routeMatch->getParam('__CONTROLLER__')) == strtolower($myParams['controller'])
-                        && $this->routeMatch->getParam('action') == $myParams['action']
+                        && strtolower($this->routeMatch->getParam('action')) == strtolower($myParams['action'])
                     ) {
                         $this->active = true;
                         return true;
                     }
-                    //if recursive check the sub pages
-                    if ($recursive) {
-                        /** @var $page Mvc */
-                        foreach ($this->pages as $page) {
-                            $page->setRouteMatch($this->routeMatch);
-                            if ($page->isActive(true)) {
-                                return true;
-                            }
+                }
+                //if recursive check the sub pages
+                if ($recursive) {
+                    /** @var $page Mvc */
+                    foreach ($this->pages as $page) {
+                        $page->setRouteMatch($this->routeMatch);
+                        if ($page->isActive(true)) {
+                            return true;
                         }
                     }
                 }

@@ -69,7 +69,6 @@ class Module
             'view_helpers' => array(
                 'invokables' => array(
                     'CtrlNavigation' => 'Ctrl\View\Helper\Navigation\Navigation',
-                    'Navigation' => 'Ctrl\View\Helper\Navigation\Navigation',
                     'FormatDate' => 'Ctrl\View\Helper\FormatDate',
                     'CtrlJsLoader' => 'Ctrl\CtrlJs\ViewHelper\CtrlJsLoader',
                     'PageTitle' => 'Ctrl\View\Helper\TwitterBootstrap\PageTitle',

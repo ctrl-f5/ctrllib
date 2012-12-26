@@ -7,6 +7,7 @@ use Zend\Navigation\AbstractContainer;
 use Zend\Navigation\Page\AbstractPage;
 use Zend\View;
 use Zend\View\Helper\Navigation as ZendNavigation;
+use Zend\View\Helper\Navigation\PluginManager;
 
 class Navigation extends ZendNavigation
 {
@@ -32,6 +33,12 @@ class Navigation extends ZendNavigation
     {
         return $this->roles;
     }
+
+    protected $defaultPluginMap = array(
+        'invokables' => array(
+            'menu' => 'Ctrl\View\Helper\Navigation\Menu'
+        )
+    );
 
     /**
      * Determines whether a page should be accepted by ACL when iterating
@@ -82,7 +89,9 @@ class Navigation extends ZendNavigation
     public function getPluginManager()
     {
         if (null === $this->plugins) {
-            $this->setPluginManager(new PluginManager());
+            $this->setPluginManager(new PluginManager(new \Zend\ServiceManager\Config(
+                $this->defaultPluginMap
+            )));
         }
         return $this->plugins;
     }

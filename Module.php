@@ -1,3 +1,3 @@
 <?php
 
-require_once __DIR__ . '/src/Ctrl/Module.php';
+require_once __DIR__ . '/src/CtrlAuth/Module.php';

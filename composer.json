@@ -34,7 +34,5 @@
         "zendframework/zend-inputfilter": "2.0.*",
         "zendframework/zend-modulemanager": "2.0.*",
         "zendframework/zend-session": "2.0.*",
-        "doctrine/doctrine-orm-module": "dev-master",
-        "doctrine/doctrine-module": "dev-master"
     }
 }

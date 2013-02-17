@@ -63,6 +63,15 @@ class Menu extends ZendMenu
         $role = $this->getRole();
         $roles = $this->getRoles();
         $resource = $page->getResource();
+        if ($resource === NULL) {
+            return true;
+        }
+        $resource = $this->acl->hasResourceOrParent(
+            $resource
+        );
+        if ($resource === false || $resource === NULL) {
+            return false;
+        }
 
         if (!$roles) {
             $roles = array($role);
@@ -70,8 +79,10 @@ class Menu extends ZendMenu
 
         if ($resource) {
             foreach ($roles as $r) {
-                if ($acl->hasResource($resource) && $acl->isAllowed($r, $resource)) {
-                    var_dump($resource);
+                /**
+                 * TODO: for now this has been set to allow an item if its resource is not found
+                 */
+                if (!$acl->hasResource($resource) || $acl->isAllowed($r, $resource)) {
                     return true;
                 }
             }

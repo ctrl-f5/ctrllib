@@ -108,4 +108,19 @@ class Acl extends ZendAcl
     {
         return $this->roleRegistry;
     }
+
+    public function hasResourceOrParent($resource)
+    {
+        if ($this->hasResource($resource)) {
+            return $resource;
+        }
+
+        if (strpos($resource, '.') === false) {
+            return false;
+        }
+
+        return $this->hasResourceOrParent(
+            substr($resource, 0, strrpos($resource, '.'))
+        );
+    }
 }

@@ -71,7 +71,7 @@ class AclFactoryTest extends ApplicationTestCase
         ));
         $instance = $this->factory->createService($serviceManager);
 
-        $this->assertEquals(2, count($instance->getResources()));
+        $this->assertEquals(3, count($instance->getResources()));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
     }
@@ -88,7 +88,7 @@ class AclFactoryTest extends ApplicationTestCase
         $instance = $this->factory->createService($serviceManager);
 
         //var_dump($instance->getResources());
-        $this->assertEquals(4, count($instance->getResources()));
+        $this->assertEquals(5, count($instance->getResources()));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($instance->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
         $this->assertTrue($instance->hasResource('routes.testRoute1'));

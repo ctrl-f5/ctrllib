@@ -28,7 +28,7 @@ class AclTest extends ApplicationTestCase
     {
         $this->acl->addSystemResources(new EmptyResources());
 
-        $this->assertEquals(2, count($this->acl->getResources()));
+        $this->assertEquals(3, count($this->acl->getResources()));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
     }
@@ -38,7 +38,7 @@ class AclTest extends ApplicationTestCase
         // add first time
         $this->acl->addSystemResources(new EmptyResources());
 
-        $this->assertEquals(2, count($this->acl->getResources()));
+        $this->assertEquals(3, count($this->acl->getResources()));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
 
@@ -46,7 +46,7 @@ class AclTest extends ApplicationTestCase
         $this->acl->addSystemResources(new EmptyResources());
 
         // should still be the same
-        $this->assertEquals(2, count($this->acl->getResources()));
+        $this->assertEquals(3, count($this->acl->getResources()));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
     }
@@ -55,7 +55,7 @@ class AclTest extends ApplicationTestCase
     {
         $this->acl->addSystemResources(new CustomResources());
 
-        $this->assertEquals(4, count($this->acl->getResources()));
+        $this->assertEquals(5, count($this->acl->getResources()));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_GLOBAL));
         $this->assertTrue($this->acl->hasResource(\Ctrl\Permissions\Resources::SET_ROUTES));
         $this->assertTrue($this->acl->hasResource('routes.testRoute1'));
